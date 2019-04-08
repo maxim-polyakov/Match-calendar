@@ -55,6 +55,24 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Loader\Loader.csproj">
+      <Project>{fe2dd818-b12f-4db9-89cb-e907d09d1b9e}</Project>
+      <Name>Loader</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Log\Log.csproj">
+      <Project>{d6b98fd0-5a54-4829-91c0-a82134975dd6}</Project>
+      <Name>Log</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Presenter\Presenter.csproj">
+      <Project>{4d3a60b1-f78c-48e1-bc73-86c89b2b47ab}</Project>
+      <Name>Presenter</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Solver\Solver.csproj">
+      <Project>{76bace86-599b-46fe-8845-a4ea8541a2ce}</Project>
+      <Name>Solver</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
