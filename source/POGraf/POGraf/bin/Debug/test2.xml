@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sсhedule xmlns="http://schedule.xsd">
+    <championship start="2017-11-06" end="2018-04-23" coupleGames="2">
+        <days>
+			<weekDay>Monday</weekDay>
+			<weekDay>Friday</weekDay>
+		</days>
+		<reserv>
+			<date>2018-04-26</date>
+		</reserv>
+        <decrees>
+			<decree>2017-12-22</decree>
+			<decree>2017-12-29</decree>
+			<decree>2018-01-01</decree>
+			<decree>2018-01-05</decree>
+			<decree>2018-01-08</decree>
+		</decrees>
+    <tours>
+      <tour>7</tour>
+      <tour>8</tour>
+      <tour>9</tour>
+      <tour>18</tour>
+      <tour>19</tour>
+      <tour>20</tour>
+    </tours>
+    </championship>
+	
+    <stadium name="ФОК Приокский" minGame="0" maxGame="4">
+		<time>
+			<item>19:00</item>
+			<item>20:00</item>
+			<item>21:00</item>
+			<item>22:00</item>
+		</time>
+    </stadium>
+	
+	<teams>
+		<command name ="Родина (Дзержинск)" leader="1">
+			<slots>
+				<slot day="Monday" time="20:00" />
+				<slot day="Monday" time="21:00" />
+				<slot day="Friday" time="20:00" />
+				<slot day="Friday" time="20:00" />
+			</slots>
+		</command>
+	
+		<command name ="Главспорт" leader="0">
+		</command>
+	
+		<command name ="Радий" leader="1">
+			<slots>
+				<slot day="Monday" time="21:00" />
+			</slots>
+		</command>
+	
+		<command name ="Волна ФФК" leader="1">
+			<periods>
+				<period day="Monday" number="1" />
+				<period day="Friday" number="1" />
+			</periods>
+		</command>	
+	
+		<command name ="Беркут" leader="1">
+			<periods>
+				<period day="Monday" number="1" />
+				<period day="Friday" number="1" />
+			</periods>
+		</command>
+	
+		<command name ="Накта Кредит" leader="1">
+		</command>
+	
+		<command name ="Камир (Дзержинск)" leader="1">
+			<slots>
+				<slot day="Monday" time="20:00" />
+				<slot day="Monday" time="21:00" />
+				<slot day="Friday" time="20:00" />
+				<slot day="Friday" time="21:00" />
+			</slots>
+		</command>
+	
+		<command name ="Бюро К" leader="0">
+			<slots>
+				<slot day="Monday" time="19:00" />
+				<slot day="Monday" time="20:00" />
+				<slot day="Monday" time="21:00" />
+				<slot day="Monday" time="22:00" />
+			</slots>
+		</command>
+	
+		<command name ="Карно Систем" leader="0">
+			<slots>
+				<slot day="Monday" time="19:00" />
+				<slot day="Friday" time="19:00" />
+			</slots>
+		</command>
+	
+		<command name ="Нефтепром (Павлово)" leader="0">
+			<slots>
+				<slot day="Monday" time="20:00" />
+				<slot day="Monday" time="21:00" />
+				<slot day="Friday" time="20:00" />
+				<slot day="Friday" time="21:00" />
+			</slots>
+		</command>
+	
+		<command name ="ХимИндустрия" leader="0">
+		</command>
+	
+		<command name ="РМП" leader="0">
+		</command>
+	</teams>
+	
+</sсhedule>

@@ -1,17 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1A2CB78C-BCBA-4E11-9569-EF5A63CB4A74}</ProjectGuid>
+    <ProjectGuid>{80E079A5-240C-41EB-B6F5-A285E7DEB0F6}</ProjectGuid>
     <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>POGraf</RootNamespace>
     <AssemblyName>POGraf</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -39,7 +38,6 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -50,22 +48,33 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Core\Core.csproj">
+      <Project>{872dd975-2bbd-45c0-a8e7-9d272091f3a9}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Loader\Loader.csproj">
-      <Project>{fe2dd818-b12f-4db9-89cb-e907d09d1b9e}</Project>
+      <Project>{18b4de06-67ca-482b-a52b-f89c3a6e883a}</Project>
       <Name>Loader</Name>
     </ProjectReference>
     <ProjectReference Include="..\Log\Log.csproj">
-      <Project>{d6b98fd0-5a54-4829-91c0-a82134975dd6}</Project>
+      <Project>{6663cc9d-c1e2-4f6a-9ba7-5bab50b07eea}</Project>
       <Name>Log</Name>
     </ProjectReference>
     <ProjectReference Include="..\Presenter\Presenter.csproj">
-      <Project>{4d3a60b1-f78c-48e1-bc73-86c89b2b47ab}</Project>
+      <Project>{74472efe-95f7-4a0b-b37a-ef70de3465e0}</Project>
       <Name>Presenter</Name>
     </ProjectReference>
     <ProjectReference Include="..\Solver\Solver.csproj">
-      <Project>{76bace86-599b-46fe-8845-a4ea8541a2ce}</Project>
+      <Project>{1e7747e4-4fc3-47fb-8c3b-1630822e0450}</Project>
       <Name>Solver</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
 </Project>

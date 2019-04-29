@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema id="schedule" targetNamespace="http://schedule.xsd" elementFormDefault="qualified" xmlns="http://schedule.xsd" xmlns:mstns="http://schedule.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	
+	<!-- simple types begin -->
+	
+	<xs:simpleType name="itemType">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-2][0-9]:[0-5][0-9]" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<!-- simple types end -->
+	
+	<!-- championship begin -->
+	
+	<xs:complexType name="daysType">
+		<xs:sequence>
+			<xs:element name="weekDay" type="xs:string" maxOccurs="7"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="reservType">
+		<xs:sequence>
+			<xs:element name="date" type="xs:date" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="decreesType">
+		<xs:sequence>
+			<xs:element name="decree" type="xs:date" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+  <xs:complexType name="toursType">
+    <xs:sequence>
+      <xs:element name="tour" type="xs:decimal" maxOccurs="unbounded" />
+    </xs:sequence>
+  </xs:complexType>
+  
+	<xs:complexType name="championshipType" >
+		<xs:sequence>
+			<xs:element name="days" type="daysType" />
+			<xs:element name="reserv" type="reservType" />
+			<xs:element name="decrees" type="decreesType" />
+      <xs:element name="tours" type="toursType" />
+		</xs:sequence>
+		<xs:attribute name="start" type="xs:date" use="required" />
+		<xs:attribute name="end" type="xs:date" use="required" />
+		<xs:attribute name="coupleGames" type="xs:positiveInteger" use="required" />
+	</xs:complexType>
+	
+	<!-- championship end -->
+	
+	<!-- stadium begin -->
+	
+	<xs:complexType name="timeType">
+		<xs:sequence>
+			<xs:element name="item" type="itemType" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="stadiumType">					
+		<xs:sequence>
+			<xs:element name="time" type="timeType" />
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string" use="required" />
+		<xs:attribute name="minGame" type="xs:nonNegativeInteger" use="required" />
+		<xs:attribute name="maxGame" type="xs:positiveInteger" use="required" />
+	</xs:complexType>
+	
+	<!-- stadium end -->
+	
+	<!-- teams begin -->
+	
+	<xs:complexType name="slotType">
+		<xs:attribute name="day" type="xs:string" use="required" />
+		<xs:attribute name="time" type="itemType" use="required" />
+	</xs:complexType>
+	
+	<xs:complexType name="slotsType">
+		<xs:sequence>
+			<xs:element name="slot" type="slotType" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="periodType">
+		<xs:attribute name="day" type="xs:string" use="required" />
+		<xs:attribute name="number" type="xs:positiveInteger" use="required" />
+	</xs:complexType>
+	
+	<xs:complexType name="periodsType">
+		<xs:sequence>
+			<xs:element name="period" type="periodType" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="commandType">
+		<xs:sequence>
+			<xs:element name="slots" type="slotsType" minOccurs="0" />
+			<xs:element name="periods" type="periodsType" minOccurs="0" />
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string" use="required" />
+		<xs:attribute name="leader" type="xs:boolean" use="required" />
+	</xs:complexType>
+	
+	<xs:complexType name="teamsType">
+		<xs:sequence>
+			<xs:element name="command" type="commandType" minOccurs="2" maxOccurs="100" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<!-- teams end -->
+	
+	<!-- schedule begin -->
+	
+	<xs:element name="sсhedule">
+		<xs:complexType>	
+			<xs:sequence>
+				<xs:element name="championship" type="championshipType" />			
+				<xs:element name ="stadium" type="stadiumType" />			
+				<xs:element name="teams" type="teamsType" />			
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<!-- schedule end -->
+	
+</xs:schema>

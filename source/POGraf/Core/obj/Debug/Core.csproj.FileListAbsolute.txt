@@ -1,0 +1,22 @@
+C:\Users\ПК\documents\visual studio 2012\Projects\POGraf\Core\bin\Debug\Core.dll
+C:\Users\ПК\documents\visual studio 2012\Projects\POGraf\Core\bin\Debug\Core.pdb
+C:\Users\ПК\documents\visual studio 2012\Projects\POGraf\Core\obj\Debug\Core.dll
+C:\Users\ПК\documents\visual studio 2012\Projects\POGraf\Core\obj\Debug\Core.pdb
+C:\Users\ПК\documents\visual studio 2012\Projects\POGraf\Core\obj\Debug\Core.csprojResolveAssemblyReference.cache
+I:\Спецсеминар hапf,\23.04.19\POGraf\Core\bin\Debug\Core.dll
+I:\Спецсеминар hапf,\23.04.19\POGraf\Core\bin\Debug\Core.pdb
+I:\Спецсеминар hапf,\23.04.19\POGraf\Core\bin\Debug\Log.dll
+I:\Спецсеминар hапf,\23.04.19\POGraf\Core\bin\Debug\Log.pdb
+I:\Спецсеминар hапf,\23.04.19\POGraf\Core\obj\Debug\Core.csprojResolveAssemblyReference.cache
+I:\Спецсеминар hапf,\23.04.19\POGraf\Core\obj\Debug\Core.dll
+I:\Спецсеминар hапf,\23.04.19\POGraf\Core\obj\Debug\Core.pdb
+C:\Users\maxim\Desktop\Match-calendar-Test_branch\source\POGraf\Core\bin\Debug\Core.dll
+C:\Users\maxim\Desktop\Match-calendar-Test_branch\source\POGraf\Core\bin\Debug\Core.pdb
+C:\Users\maxim\Desktop\Match-calendar-Test_branch\source\POGraf\Core\bin\Debug\Log.dll
+C:\Users\maxim\Desktop\Match-calendar-Test_branch\source\POGraf\Core\bin\Debug\Log.pdb
+C:\Users\maxim\Desktop\Match-calendar-Test_branch\source\POGraf\Core\bin\Debug\Log.exe.config
+C:\Users\maxim\Desktop\Match-calendar-Test_branch\source\POGraf\Core\obj\Debug\Core.csprojAssemblyReference.cache
+C:\Users\maxim\Desktop\Match-calendar-Test_branch\source\POGraf\Core\obj\Debug\Core.csproj.CoreCompileInputs.cache
+C:\Users\maxim\Desktop\Match-calendar-Test_branch\source\POGraf\Core\obj\Debug\Core.csproj.CopyComplete
+C:\Users\maxim\Desktop\Match-calendar-Test_branch\source\POGraf\Core\obj\Debug\Core.dll
+C:\Users\maxim\Desktop\Match-calendar-Test_branch\source\POGraf\Core\obj\Debug\Core.pdb

@@ -1,0 +1,36 @@
+C:\Users\ПК\documents\visual studio 2012\Projects\POGraf\Presenter\obj\Debug\Presenter.csprojResolveAssemblyReference.cache
+C:\Users\ПК\documents\visual studio 2012\Projects\POGraf\Presenter\bin\Debug\Presenter.dll
+C:\Users\ПК\documents\visual studio 2012\Projects\POGraf\Presenter\bin\Debug\Presenter.pdb
+C:\Users\ПК\documents\visual studio 2012\Projects\POGraf\Presenter\bin\Debug\Core.dll
+C:\Users\ПК\documents\visual studio 2012\Projects\POGraf\Presenter\bin\Debug\Core.pdb
+C:\Users\ПК\documents\visual studio 2012\Projects\POGraf\Presenter\obj\Debug\Presenter.dll
+C:\Users\ПК\documents\visual studio 2012\Projects\POGraf\Presenter\obj\Debug\Presenter.pdb
+C:\Users\ПК\documents\visual studio 2012\Projects\POGraf\Presenter\bin\Debug\Loader.dll
+C:\Users\ПК\documents\visual studio 2012\Projects\POGraf\Presenter\bin\Debug\Loader.pdb
+I:\Спецсеминар hапf,\23.04.19\POGraf\Presenter\bin\Debug\Presenter.dll
+I:\Спецсеминар hапf,\23.04.19\POGraf\Presenter\bin\Debug\Presenter.pdb
+I:\Спецсеминар hапf,\23.04.19\POGraf\Presenter\bin\Debug\Core.dll
+I:\Спецсеминар hапf,\23.04.19\POGraf\Presenter\bin\Debug\Loader.dll
+I:\Спецсеминар hапf,\23.04.19\POGraf\Presenter\bin\Debug\Log.dll
+I:\Спецсеминар hапf,\23.04.19\POGraf\Presenter\bin\Debug\Core.pdb
+I:\Спецсеминар hапf,\23.04.19\POGraf\Presenter\bin\Debug\Loader.pdb
+I:\Спецсеминар hапf,\23.04.19\POGraf\Presenter\bin\Debug\Log.pdb
+I:\Спецсеминар hапf,\23.04.19\POGraf\Presenter\obj\Debug\Presenter.csprojResolveAssemblyReference.cache
+I:\Спецсеминар hапf,\23.04.19\POGraf\Presenter\obj\Debug\Presenter.dll
+I:\Спецсеминар hапf,\23.04.19\POGraf\Presenter\obj\Debug\Presenter.pdb
+C:\Users\maxim\Desktop\Match-calendar-Test_branch\source\POGraf\Presenter\bin\Debug\Presenter.dll
+C:\Users\maxim\Desktop\Match-calendar-Test_branch\source\POGraf\Presenter\bin\Debug\Presenter.pdb
+C:\Users\maxim\Desktop\Match-calendar-Test_branch\source\POGraf\Presenter\bin\Debug\Core.dll
+C:\Users\maxim\Desktop\Match-calendar-Test_branch\source\POGraf\Presenter\bin\Debug\Loader.dll
+C:\Users\maxim\Desktop\Match-calendar-Test_branch\source\POGraf\Presenter\bin\Debug\Log.dll
+C:\Users\maxim\Desktop\Match-calendar-Test_branch\source\POGraf\Presenter\bin\Debug\Core.pdb
+C:\Users\maxim\Desktop\Match-calendar-Test_branch\source\POGraf\Presenter\bin\Debug\Core.exe.config
+C:\Users\maxim\Desktop\Match-calendar-Test_branch\source\POGraf\Presenter\bin\Debug\Loader.pdb
+C:\Users\maxim\Desktop\Match-calendar-Test_branch\source\POGraf\Presenter\bin\Debug\Loader.exe.config
+C:\Users\maxim\Desktop\Match-calendar-Test_branch\source\POGraf\Presenter\bin\Debug\Log.pdb
+C:\Users\maxim\Desktop\Match-calendar-Test_branch\source\POGraf\Presenter\bin\Debug\Log.exe.config
+C:\Users\maxim\Desktop\Match-calendar-Test_branch\source\POGraf\Presenter\obj\Debug\Presenter.csprojAssemblyReference.cache
+C:\Users\maxim\Desktop\Match-calendar-Test_branch\source\POGraf\Presenter\obj\Debug\Presenter.csproj.CoreCompileInputs.cache
+C:\Users\maxim\Desktop\Match-calendar-Test_branch\source\POGraf\Presenter\obj\Debug\Presenter.csproj.CopyComplete
+C:\Users\maxim\Desktop\Match-calendar-Test_branch\source\POGraf\Presenter\obj\Debug\Presenter.dll
+C:\Users\maxim\Desktop\Match-calendar-Test_branch\source\POGraf\Presenter\obj\Debug\Presenter.pdb

@@ -49,13 +49,19 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="Sample.cs" />
+    <Compile Include="GreedyAlgoTest.cs" />
+    <Compile Include="AnswerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Core\Core.csproj">
+      <Project>{1c4dbce3-b0d4-48da-b80e-8cd191400400}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Loader\Loader.csproj">
       <Project>{fe2dd818-b12f-4db9-89cb-e907d09d1b9e}</Project>
       <Name>Loader</Name>

@@ -1,0 +1,14 @@
+C:\Users\ПК\documents\visual studio 2012\Projects\POGraf\Log\bin\Debug\Log.dll
+C:\Users\ПК\documents\visual studio 2012\Projects\POGraf\Log\bin\Debug\Log.pdb
+C:\Users\ПК\documents\visual studio 2012\Projects\POGraf\Log\obj\Debug\Log.dll
+C:\Users\ПК\documents\visual studio 2012\Projects\POGraf\Log\obj\Debug\Log.pdb
+I:\Спецсеминар hапf,\23.04.19\POGraf\Log\bin\Debug\Log.dll
+I:\Спецсеминар hапf,\23.04.19\POGraf\Log\bin\Debug\Log.pdb
+I:\Спецсеминар hапf,\23.04.19\POGraf\Log\obj\Debug\Log.dll
+I:\Спецсеминар hапf,\23.04.19\POGraf\Log\obj\Debug\Log.pdb
+C:\Users\maxim\Desktop\Match-calendar-Test_branch\source\POGraf\Log\bin\Debug\Log.dll
+C:\Users\maxim\Desktop\Match-calendar-Test_branch\source\POGraf\Log\bin\Debug\Log.pdb
+C:\Users\maxim\Desktop\Match-calendar-Test_branch\source\POGraf\Log\obj\Debug\Log.csprojAssemblyReference.cache
+C:\Users\maxim\Desktop\Match-calendar-Test_branch\source\POGraf\Log\obj\Debug\Log.csproj.CoreCompileInputs.cache
+C:\Users\maxim\Desktop\Match-calendar-Test_branch\source\POGraf\Log\obj\Debug\Log.dll
+C:\Users\maxim\Desktop\Match-calendar-Test_branch\source\POGraf\Log\obj\Debug\Log.pdb
