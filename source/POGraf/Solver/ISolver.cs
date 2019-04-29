@@ -75,6 +75,7 @@ namespace Solver
                     }
             }
 
+            ans.Sort();
             return ans;
         }
     }
