@@ -1,6 +1,6 @@
 Информация (0) - 
 Информация (0) - ------------------------------------
-Информация (0) - Start at 25.04.2019 21:43:37
+Информация (0) - Start at 4/30/2019 10:40:33 AM
 Информация (0) - 
 Информация (0) - ------------------------------------
 Информация (0) - Loader initialized config.ini
@@ -8,51 +8,80 @@
 Информация (0) - Iterations num : 3
 Информация (0) - 
 Информация (0) - ------------------------------------
-Информация (0) - 21:43:45.6124161 Loader start to parse I:\Спецсеминар hапf,\23.04.19\POGraf\POGraf\bin\Debug\test2.xml
-Информация (0) - 21:43:45.6394376 Done with XML, creating model
+Информация (0) - 10:40:33.7459725 Loader start to parse C:\Users\maxim\Desktop\Match-calendar-master\source\POGraf\POGraf\bin\Debug\test2.xml
+Информация (0) - 10:40:33.7778553 Done with XML, creating model
 Информация (0) - Teams : 12 Leaders : 6
 Информация (0) - Min game : 0 Max game : 4
 Информация (0) - Days : 45 Days without reserv : 44
-Информация (0) - 21:43:45.6794615 Model is done
+Информация (0) - 10:40:33.8237592 Model is done
 Информация (0) - 
 Информация (0) - ------------------------------------
-Информация (0) - 21:43:45.7034769 Loader finished. Solver start
-Информация (0) - 21:43:45.7114851 Algorythm start
-Информация (0) - 21:43:45.7294955 The answer is ready
-Информация (0) - 21:43:45.7375002 The answer is received
+Информация (0) - 10:40:33.8476654 Loader finished. Solver start
+Информация (0) - 10:40:33.8566715 Algorythm start
+Информация (0) - 10:40:33.8776269 The answer is ready
+Информация (0) - 10:40:33.8865964 The answer is received
 Информация (0) - 
 Информация (0) - ------------------------------------
-Информация (0) - 21:43:45.7635205 Solver finished. Presenter start
-Информация (0) - 21:43:45.8865993 Presenter finished
+Информация (0) - 10:40:33.9304469 Solver finished. Presenter start
+Информация (0) - 10:40:34.0860298 Presenter finished
 Информация (0) - 
 Информация (0) - ------------------------------------
-Информация (0) - 21:43:45.9146175 Work is over. Check answer.html
+Информация (0) - 10:40:34.1179776 Work is over. Check answer.html
 Информация (0) - 
 Информация (0) - ------------------------------------
-Информация (0) - Start at 25.04.2019 21:50:05
+Информация (0) - Start at 4/30/2019 10:41:36 AM
 Информация (0) - 
 Информация (0) - ------------------------------------
 Информация (0) - Loader initialized config.ini
-Информация (0) - Choosen algorythm : greedy
+Информация (0) - Choosen algorythm : local
 Информация (0) - Iterations num : 3
 Информация (0) - 
 Информация (0) - ------------------------------------
-Информация (0) - 21:50:10.3805870 Loader start to parse I:\Спецсеминар hапf,\23.04.19\POGraf — копия\POGraf\bin\Debug\test2.xml
-Информация (0) - 21:50:10.4096076 Done with XML, creating model
+Информация (0) - 10:41:36.3791253 Loader start to parse C:\Users\maxim\Desktop\Match-calendar-master\source\POGraf\POGraf\bin\Debug\test2.xml
+Информация (0) - 10:41:36.4120382 Done with XML, creating model
 Информация (0) - Teams : 12 Leaders : 6
 Информация (0) - Min game : 0 Max game : 4
 Информация (0) - Days : 45 Days without reserv : 44
-Информация (0) - 21:50:10.4756500 Model is done
+Информация (0) - 10:41:36.4592614 Model is done
 Информация (0) - 
 Информация (0) - ------------------------------------
-Информация (0) - 21:50:10.4996655 Loader finished. Solver start
-Информация (0) - 21:50:10.5096722 Algorythm start
-Информация (0) - 21:50:10.5286849 The answer is ready
-Информация (0) - 21:50:10.5376909 The answer is received
+Информация (0) - 10:41:36.4858021 Loader finished. Solver start
+Информация (0) - 10:41:36.4948088 Algorythm start
+Информация (0) - 10:41:36.5407168 The answer is ready
+Информация (0) - 10:41:36.5516571 The answer is received
 Информация (0) - 
 Информация (0) - ------------------------------------
-Информация (0) - 21:50:10.5647118 Solver finished. Presenter start
-Информация (0) - 21:50:10.7088115 Presenter finished
+Информация (0) - 10:41:36.5965302 Solver finished. Presenter start
+Информация (0) - 10:41:36.7780457 Presenter finished
 Информация (0) - 
 Информация (0) - ------------------------------------
-Информация (0) - 21:50:10.7358262 Work is over. Check answer.html
+Информация (0) - 10:41:36.8099610 Work is over. Check answer.html
+Информация (0) - 
+Информация (0) - ------------------------------------
+Информация (0) - Start at 4/30/2019 11:00:23 AM
+Информация (0) - 
+Информация (0) - ------------------------------------
+Информация (0) - Loader initialized config.ini
+Информация (0) - Choosen algorythm : local
+Информация (0) - Iterations num : 3
+Информация (0) - 
+Информация (0) - ------------------------------------
+Информация (0) - 11:00:23.8294420 Loader start to parse C:\Users\maxim\Desktop\Match-calendar-master\source\POGraf\POGraf\bin\Debug\test2.xml
+Информация (0) - 11:00:23.8643860 Done with XML, creating model
+Информация (0) - Teams : 12 Leaders : 6
+Информация (0) - Min game : 0 Max game : 4
+Информация (0) - Days : 45 Days without reserv : 44
+Информация (0) - 11:00:23.9112205 Model is done
+Информация (0) - 
+Информация (0) - ------------------------------------
+Информация (0) - 11:00:23.9381485 Loader finished. Solver start
+Информация (0) - 11:00:23.9473246 Algorythm start
+Информация (0) - 11:00:23.9949575 The answer is ready
+Информация (0) - 11:00:24.0048948 The answer is received
+Информация (0) - 
+Информация (0) - ------------------------------------
+Информация (0) - 11:00:24.0527661 Solver finished. Presenter start
+Информация (0) - 11:00:24.2412646 Presenter finished
+Информация (0) - 
+Информация (0) - ------------------------------------
+Информация (0) - 11:00:24.2733479 Work is over. Check answer.html

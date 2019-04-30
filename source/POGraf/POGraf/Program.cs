@@ -15,11 +15,21 @@ namespace POGraf
     class Program
     {
         static void Main(string[] args)
-        {   
-            // Считать имя файла конфигурации
-            Console.WriteLine("Config file: ");
-            string configFile = Console.ReadLine();
+        {
+            string configFile = null;
+            string inputFile = null;
 
+
+            if (args.Length == 0)
+            {
+                throw new FileNotFoundException();
+            }
+            else if (args.Length == 3) {
+                configFile = args[1];
+                inputFile = args[2];
+            }
+            // Считать имя файла конфигурации
+            
             // Обработать файл конфигурации
             LoaderDummy loader = new LoaderDummy();
             ConfigParams parameters = loader.Initialize(configFile);
@@ -36,8 +46,6 @@ namespace POGraf
             LogGlobal.msg(0, "Iterations num : " + parameters.iterations);
 
             // Считать имя файла с входными данными
-            Console.WriteLine("Input file: ");
-            string inputFile = Console.ReadLine();
 
             // Обработать xml-файл входных данных
             Model model = loader.Parse(inputFile, logName);

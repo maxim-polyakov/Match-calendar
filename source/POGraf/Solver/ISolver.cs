@@ -73,8 +73,13 @@ namespace Solver
                     {
                         break;
                     }
+<<<<<<< HEAD
             }
 
+=======
+            }
+
+>>>>>>> 88122a8ff88c5179533a8bea02651144fee34545
             ans.Sort();
             return ans;
         }

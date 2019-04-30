@@ -20,3 +20,13 @@ C:\Users\maxim\Desktop\Match-calendar-Test_branch\source\POGraf\Core\obj\Debug\C
 C:\Users\maxim\Desktop\Match-calendar-Test_branch\source\POGraf\Core\obj\Debug\Core.csproj.CopyComplete
 C:\Users\maxim\Desktop\Match-calendar-Test_branch\source\POGraf\Core\obj\Debug\Core.dll
 C:\Users\maxim\Desktop\Match-calendar-Test_branch\source\POGraf\Core\obj\Debug\Core.pdb
+C:\Users\maxim\Desktop\Match-calendar-master\source\POGraf\Core\bin\Debug\Core.dll
+C:\Users\maxim\Desktop\Match-calendar-master\source\POGraf\Core\bin\Debug\Core.pdb
+C:\Users\maxim\Desktop\Match-calendar-master\source\POGraf\Core\bin\Debug\Log.dll
+C:\Users\maxim\Desktop\Match-calendar-master\source\POGraf\Core\bin\Debug\Log.pdb
+C:\Users\maxim\Desktop\Match-calendar-master\source\POGraf\Core\bin\Debug\Log.exe.config
+C:\Users\maxim\Desktop\Match-calendar-master\source\POGraf\Core\obj\Debug\Core.csprojAssemblyReference.cache
+C:\Users\maxim\Desktop\Match-calendar-master\source\POGraf\Core\obj\Debug\Core.csproj.CoreCompileInputs.cache
+C:\Users\maxim\Desktop\Match-calendar-master\source\POGraf\Core\obj\Debug\Core.csproj.CopyComplete
+C:\Users\maxim\Desktop\Match-calendar-master\source\POGraf\Core\obj\Debug\Core.dll
+C:\Users\maxim\Desktop\Match-calendar-master\source\POGraf\Core\obj\Debug\Core.pdb
