@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Text;
@@ -161,6 +162,42 @@ namespace Presenter
                 fstream.Write(input, 0, input.Length);
                 LogGlobal.msg(0, DateTime.Now.TimeOfDay + " Presenter finished");
             }        
+        }
+
+        public void ShowCrit(List<int[]> l)
+        {
+            var dataTable = new DataTable();
+
+            for (int i = 0; i < l[i].Length; i++)
+            {
+                dataTable.Columns.Add(i.ToString());
+            }
+            for (int j = 0; j < l.Count; j++)
+            {
+                var row = dataTable.NewRow();
+
+                
+                for (int i = 0; i < l[i].Length; i += 1)
+                {
+                   
+                    row[i.ToString()] = l[i][j].ToString();
+                }
+
+                
+
+                dataTable.Rows.Add(row);
+            }
+            dataTable.AcceptChanges();
+            var html = this.GetHtml(dataTable);
+
+            using (FileStream fstream = new FileStream(Directory.GetCurrentDirectory() + "\\Crit.html", FileMode.OpenOrCreate))
+            {
+                byte[] input = Encoding.Default.GetBytes(html);
+
+                fstream.Write(input, 0, input.Length);
+               
+            }
+
         }
     }
 }

@@ -50,3 +50,19 @@ C:\Users\maxim\Desktop\Match-calendar-master\source\POGraf\Presenter\obj\Debug\P
 C:\Users\maxim\Desktop\Match-calendar-master\source\POGraf\Presenter\obj\Debug\Presenter.csproj.CopyComplete
 C:\Users\maxim\Desktop\Match-calendar-master\source\POGraf\Presenter\obj\Debug\Presenter.dll
 C:\Users\maxim\Desktop\Match-calendar-master\source\POGraf\Presenter\obj\Debug\Presenter.pdb
+C:\Users\maxim\Desktop\Новая папка (6)\Match-calendar-master\source\POGraf\Presenter\bin\Debug\Presenter.dll
+C:\Users\maxim\Desktop\Новая папка (6)\Match-calendar-master\source\POGraf\Presenter\bin\Debug\Presenter.pdb
+C:\Users\maxim\Desktop\Новая папка (6)\Match-calendar-master\source\POGraf\Presenter\bin\Debug\Core.dll
+C:\Users\maxim\Desktop\Новая папка (6)\Match-calendar-master\source\POGraf\Presenter\bin\Debug\Loader.dll
+C:\Users\maxim\Desktop\Новая папка (6)\Match-calendar-master\source\POGraf\Presenter\bin\Debug\Log.dll
+C:\Users\maxim\Desktop\Новая папка (6)\Match-calendar-master\source\POGraf\Presenter\bin\Debug\Core.pdb
+C:\Users\maxim\Desktop\Новая папка (6)\Match-calendar-master\source\POGraf\Presenter\bin\Debug\Core.exe.config
+C:\Users\maxim\Desktop\Новая папка (6)\Match-calendar-master\source\POGraf\Presenter\bin\Debug\Loader.pdb
+C:\Users\maxim\Desktop\Новая папка (6)\Match-calendar-master\source\POGraf\Presenter\bin\Debug\Loader.exe.config
+C:\Users\maxim\Desktop\Новая папка (6)\Match-calendar-master\source\POGraf\Presenter\bin\Debug\Log.pdb
+C:\Users\maxim\Desktop\Новая папка (6)\Match-calendar-master\source\POGraf\Presenter\bin\Debug\Log.exe.config
+C:\Users\maxim\Desktop\Новая папка (6)\Match-calendar-master\source\POGraf\Presenter\obj\Debug\Presenter.csprojAssemblyReference.cache
+C:\Users\maxim\Desktop\Новая папка (6)\Match-calendar-master\source\POGraf\Presenter\obj\Debug\Presenter.csproj.CoreCompileInputs.cache
+C:\Users\maxim\Desktop\Новая папка (6)\Match-calendar-master\source\POGraf\Presenter\obj\Debug\Presenter.csproj.CopyComplete
+C:\Users\maxim\Desktop\Новая папка (6)\Match-calendar-master\source\POGraf\Presenter\obj\Debug\Presenter.dll
+C:\Users\maxim\Desktop\Новая папка (6)\Match-calendar-master\source\POGraf\Presenter\obj\Debug\Presenter.pdb
