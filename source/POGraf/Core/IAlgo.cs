@@ -423,7 +423,7 @@ namespace Core
                 int crSave = 0;
                 for (int i = 0; i < cr.Length; i++)
                     crSave += cr[i];
-                crSave += cr[5];
+                //crSave += cr[5] + cr[6];
                 Console.WriteLine(crSave);
                 criterion.Add(cr);
                 for (int j = 0; j < cr.Length; j++)
@@ -498,7 +498,7 @@ namespace Core
                     crNew = 0;
                     for (int j = 0; j < cr.Length; j++)
                         crNew += cr[j];
-                    crNew += cr[5];
+                    //crNew += cr[5] + cr[6];
                     if (crNew >= crSave)
                     {
                         x = xSave;
@@ -516,7 +516,7 @@ namespace Core
                         crSave = crNew;
                         Console.WriteLine(crSave);
                         criterion.Add(cr);
-                        for (int j = 0; j < 6; j++)
+                        for (int j = 0; j < cr.Length; j++)
                             Console.Write(cr[j] + " ");
                         Console.WriteLine();
                     }
@@ -581,7 +581,7 @@ namespace Core
                     crNew = 0;
                     for (int j = 0; j < cr.Length; j++)
                         crNew += cr[j];
-                    crNew += cr[5];
+                    //crNew += cr[5] + cr[6];
                     if (crNew >= crSave)
                     {
                         x = xSave;
@@ -593,7 +593,7 @@ namespace Core
                         crSave = crNew;
                         Console.WriteLine(crSave);
                         criterion.Add(cr);
-                        for (int j = 0; j < 6; j++)
+                        for (int j = 0; j < cr.Length; j++)
                             Console.Write(cr[j] + " ");
                         Console.WriteLine();
                     }
@@ -658,7 +658,7 @@ namespace Core
                     crNew = 0;
                     for (int j = 0; j < cr.Length; j++)
                         crNew += cr[j];
-                    crNew += cr[5];
+                    //crNew += cr[5] + cr[6];
                     if (crNew >= crSave)
                     {
                         x = xSave;
@@ -670,7 +670,7 @@ namespace Core
                         crSave = crNew;
                         Console.WriteLine(crSave);
                         criterion.Add(cr);
-                        for (int j = 0; j < 6; j++)
+                        for (int j = 0; j < cr.Length; j++)
                             Console.Write(cr[j] + " ");
                         Console.WriteLine();
                     }
