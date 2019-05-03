@@ -17,6 +17,7 @@ namespace Core
     public abstract class Algo : IAlgo
     {
         protected Model model;
+        public List<int[]> criterion;
 
         #region Исходные параметры
         public int n; // Число команд
@@ -79,6 +80,8 @@ namespace Core
             }
             v = model.v;
             t = model.t;
+
+            criterion = new List<int[]>();
         }
 
         public abstract Answer Solve();
@@ -393,7 +396,9 @@ namespace Core
             x = GetTours();
             y = GetDays();
             z = GetHours();
-            return new Answer(n, x, y, z);
+            Answer answer = new Answer(n, x, y, z);
+            criterion.Add(model.Criterion(answer));
+            return answer;
         }
     }
 
@@ -420,6 +425,7 @@ namespace Core
                     crSave += cr[i];
                 crSave += cr[5];
                 Console.WriteLine(crSave);
+                criterion.Add(cr);
                 for (int j = 0; j < cr.Length; j++)
                     Console.Write(cr[j] + " ");
                 Console.WriteLine();
@@ -509,6 +515,7 @@ namespace Core
                     {
                         crSave = crNew;
                         Console.WriteLine(crSave);
+                        criterion.Add(cr);
                         for (int j = 0; j < 6; j++)
                             Console.Write(cr[j] + " ");
                         Console.WriteLine();
@@ -585,6 +592,7 @@ namespace Core
                     {
                         crSave = crNew;
                         Console.WriteLine(crSave);
+                        criterion.Add(cr);
                         for (int j = 0; j < 6; j++)
                             Console.Write(cr[j] + " ");
                         Console.WriteLine();
@@ -661,6 +669,7 @@ namespace Core
                     {
                         crSave = crNew;
                         Console.WriteLine(crSave);
+                        criterion.Add(cr);
                         for (int j = 0; j < 6; j++)
                             Console.Write(cr[j] + " ");
                         Console.WriteLine();

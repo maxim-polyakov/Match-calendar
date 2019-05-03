@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Core
 {
@@ -91,7 +88,7 @@ namespace Core
                     for (int j = 0; j < n / 2; j++)
                         if ((x[s[i], j, 0] < nl) && (x[s[i], j, 1] < nl))
                             cr[2]--;
-                cr[2] += nl * 2 * (n - 1);
+                cr[2] += 2 * (nl * nl - nl);
             }
 
             // За один день не более 2 матчей между лидерами
@@ -154,7 +151,6 @@ namespace Core
                                         break;
                                     }
                                 }
-
                             }
                         }
                     }
@@ -165,7 +161,7 @@ namespace Core
                     for (int j = 0; j < v[i].Length; j++)
                         sum += v[i][j].n;
                 }
-                cr[5] += sum * 2 * (n - 1) / 4;
+                cr[5] += sum * (2 * (n - 1) / 4);
                 if (2 * (n - 1) % 4 != 0)
                 {
                     for (int i = 0; i < n; i++)
@@ -186,15 +182,15 @@ namespace Core
     }
 
     // Номера приоритетных дней недели с числом повторений в четыре тура
-    public struct V 
+    public struct V
     {
         public int d; // Приоритеный день недели
         public int n; // Число повторений в четыре тура
 
-        public V(int d, int n) 
-        { 
-            this.d = d; this.n = n; 
-        } 
+        public V(int d, int n)
+        {
+            this.d = d; this.n = n;
+        }
     }
 
 }
