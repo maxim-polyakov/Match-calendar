@@ -31,22 +31,54 @@ namespace Core
 
         public int[] Criterion(Answer answer)
         {
-            return 0;
+            return new int[1] { Criterion(answer.schedule) };
+        }
+
+        public int Criterion(Schedule schedule)
+        {
+            Schedule sch = new Schedule(schedule);
+            int sum = 0;
+            for (int i = 0; i < wishes.Length; i++)
+            {
+                int plus = 0;
+                int minus = 0;
+                for (int j = 0; j < schedule.tours; j++)
+                    for (int k = 0; k < schedule.games; k++)
+                    {
+                        if (schedule.y[j, k].HasValue)
+                        {
+                            sch.y[j, k] = sch.z[j, k] = null;
+                            if (wishes[i].IsSuitable((int)schedule.y[j, k], (int)schedule.z[j, k], j, k, sch))
+                                plus++;
+                            else
+                                minus++;
+                            sch.y[j, k] = schedule.y[j, k];
+                            sch.z[j, k] = schedule.z[j, k];
+                        }
+                        else
+                            minus++; ;
+                    }
+                sum += wishes[i].importancePercent * plus / (plus + minus);
+            }
+            return sum;
         }
     }
 
     public abstract class Wish
     {
         public int importancePercent;
+
         public Wish(int importancePercent)
         {
             this.importancePercent = importancePercent;
         }
+
         public abstract bool IsSuitable(int day, int slot, int tour, int gameInTour, Schedule schedule);
     }
     public abstract class TeamWish : Wish
     {
         public int team;
+
         public TeamWish(int importancePercent, int team) : base(importancePercent)
         {
             this.team = team;
@@ -58,31 +90,22 @@ namespace Core
         public ToursInOrderWish(int importancePercent) : base(importancePercent)
         {
         }
+
         public override bool IsSuitable(int day, int slot, int tour, int gameInTour, Schedule schedule)
         {
-            // доделать ограничение сверху
             if (tour > 0)
             {
-                int maxDay = 0;
-                int maxSlot = 0;
                 for (int i = 0; i < schedule.games; i++)
                     if (schedule.y[tour - 1, i].HasValue)
                     {
-                        if (schedule.y[tour - 1, i] > maxDay)
-                        {
-                            maxDay = (int)schedule.y[tour - 1, i];
-                            maxSlot = (int)schedule.z[tour - 1, i];
-                        }
-                        else if ((schedule.y[tour - 1, i] == maxDay) && (schedule.z[tour - 1, i] > maxSlot))
-                            maxSlot = (int)schedule.z[tour - 1, i];
+                        if ((schedule.y[tour - 1, i] > day) ||
+                            ((schedule.y[tour - 1, i] == day) && (schedule.z[tour - 1, i] >= slot)))
+                            return false;
                     }
-                if ((day > maxDay) || ((day == maxDay) && (slot > maxSlot)))
-                    return true;
-                else
-                    return false;
+                    else
+                        return false;
             }
-            else
-                return true;
+            return true;
         }
     }
     public class NotMoreOneGameSlot : Wish
@@ -90,6 +113,7 @@ namespace Core
         public NotMoreOneGameSlot(int importancePercent) : base(importancePercent)
         {
         }
+
         public override bool IsSuitable(int day, int slot, int tour, int gameInTour, Schedule schedule)
         {
             for (int i = 0; i < schedule.tours; i++)

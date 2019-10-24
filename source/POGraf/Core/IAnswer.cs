@@ -8,86 +8,99 @@ namespace Core
 {
     public class Answer
     {
-        public int N { get; private set; }
-        public int[, ,] Tours { get; private set; }
-        public int[,] Days { get; private set; }
-        public int[,] Hours { get; private set; }
+        public Schedule schedule;
+        protected string[] teams;
+        protected DateTime[,] timeSlots;
 
-        public Answer(int n, int[, ,] tours, int[,] days, int[,] hours)
+        public Answer(Schedule schedule, DateTime[,] timeSlots, string[] teams)
         {
-            N = n;
-            Tours = tours;
-            Days = days;
-            Hours = hours;
-        }      
-        
-        public void Sort()
+            this.schedule = schedule;
+            this.teams = teams;
+            this.timeSlots = timeSlots;
+        }
+
+        public Game this[int i, int j]
         {
-            for (int i = 0; i < 2 * (N - 1); i++)
+            get
             {
-                for (int j = 0; j < N / 2; j++)
+                if ((i < schedule.tours) && (j < schedule.games))
                 {
-                    for (int k = j + 1; k < N / 2; k++)
-                    {
-                        if ((Days[i, j] > Days[i, k]) || ((Days[i, j] == Days[i, k]) && (Hours[i, j] > Hours[i, k])))
-                        {
-                            int copy = Days[i, j];
-                            Days[i, j] = Days[i, k];
-                            Days[i, k] = copy;
-                            copy = Hours[i, j];
-                            Hours[i, j] = Hours[i, k];
-                            Hours[i, k] = copy;
-                            for (int l = 0; l < 2; l++)
-                            {
-                                copy = Tours[i, j, l];
-                                Tours[i, j, l] = Tours[i, k, l];
-                                Tours[i, k, l] = copy;
-                            }
-                        }
-                    }
+                    Game game = new Game();
+                    if (schedule.x[i, j, 0] != null)
+                        game.teams = new string[2] { teams[(int)schedule.x[i, j, 0]], teams[(int)schedule.x[i, j, 1]] };
+                    else
+                        game.teams = null;
+                    if (schedule.y[i, j] != null)
+                        game.DateTime = timeSlots[(int)schedule.y[i, j], (int)schedule.z[i, j]];
+                    else
+                        game.DateTime = null;
+                    return game;
                 }
+                else
+                    return null;
             }
         }
     }
 
-    public interface IAnswer
+    public class Game
     {
-        Answer GetInfo();
-        void Sort();
-        int[,] GetDays();
-        int[,] GetHours();
+        public string[] teams;
+        public DateTime? DateTime;
     }
 
-    public class AnswerDummy : IAnswer
+    public class Schedule
     {
-        Answer an;
+        public int teams;
+        public int rounds;
+        public int tours;
+        public int games;
+        public int?[,,] x;
+        public int?[,] y;
+        public int?[,] z;
+        public bool filled;
+        public int[,] roundsTeams;
 
-        public AnswerDummy() { }
+        public Schedule(int teams, int rounds, int tours, int games)
+        {
+            this.teams = teams;
+            this.rounds = rounds;
+            this.tours = tours;
+            this.games = games;
+            x = new int?[tours, games, 2];
+            y = new int?[tours, games];
+            z = new int?[tours, games];
+            filled = false;
+            for (int i = 0; i < tours; i++)
+                for (int j = 0; j < games; j++)
+                    x[i, j, 0] = x[i, j, 1] = y[i, j] = z[i, j] = null;
+            roundsTeams = new int[rounds, teams];
+        }
+        public Schedule(Schedule schedule)
+        {
+            teams = schedule.teams;
+            rounds = schedule.rounds;
+            tours = schedule.tours;
+            games = schedule.games;
+            x = new int?[tours, games, 2];
+            y = new int?[tours, games];
+            z = new int?[tours, games];
+            filled = schedule.filled;
+            for (int i = 0; i < tours; i++)
+                for (int j = 0; j < games; j++)
+                {
+                    x[i, j, 0] = schedule.x[i, j, 0];
+                    x[i, j, 1] = schedule.x[i, j, 1];
+                    y[i, j] = schedule.y[i, j];
+                    z[i, j] = schedule.z[i, j];
+                }
+            roundsTeams = new int[rounds, teams];
+            for (int i = 0; i < rounds; i++)
+                for (int j = 0; j < teams; j++)
+                    roundsTeams[i, j] = schedule.roundsTeams[i, j];
+        }
 
-        public AnswerDummy(Answer answer)
-        {
-            an = answer;
-        }
-        public AnswerDummy(int n, int[, ,] tours, int[,] days, int[,] hours)
-        {
-            an = new Answer(n, tours, days, hours);
-        }
-        public Answer GetInfo()
-        {
-            return an;
-        }
         public void Sort()
         {
-            an.Sort();
-        }
-        public int[,] GetDays()
-        {
-            return this.an.Days;
-        }
-
-        public int[,] GetHours()
-        {
-            return this.an.Hours;
         }
     }
 }
