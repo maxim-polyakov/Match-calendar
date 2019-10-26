@@ -19,9 +19,6 @@ namespace Core
         protected int g; // Число игр в туре
         protected int s; // Число временных слотов в день
         protected int d; // Число дней
-        protected int[] q; // Номера дней недели по дням
-        protected int[] w; // Номера недель по дням
-        protected int[] m; // Номера месяцев по дням
         protected Wish[] wishes; // Пожелания
 
         protected int minGamesСonsid;
@@ -33,12 +30,9 @@ namespace Core
             r = model.r;
             s = model.s;
             d = model.d;
-            q = model.q;
-            w = model.w;
-            m = model.m;
             t = r * (n - 1 + n % 2);
             g = n / 2 + n % 2;
-            wishes = model.wishes;
+            wishes = model.wishes.ToArray();
             this.minGamesСonsid = minGamesСonsid;
         }
 
@@ -90,7 +84,7 @@ namespace Core
                             for (int day = 0; day < d; day++)
                                 for (int slot = 0; slot < s; slot++)
                                     if (demSuit[game, day, slot] == true)
-                                        if (wishes[wish].IsSuitable(day, slot, currGames[game][0], currGames[game][1], sch) == false)
+                                        if (wishes[wish].IsSuitable(day, slot, currGames[game][0], currGames[game][1], sch, model) == false)
                                         {
                                             demSuit[game, day, slot] = false;
                                             demSuitSum--;
@@ -118,7 +112,7 @@ namespace Core
                             for (int day = 0; day < d; day++)
                                 for (int slot = 0; slot < s; slot++)
                                     if ((wishRatio[day, slot] != 0) &&
-                                        (wishes[wish].IsSuitable(day, slot, currGames[game][0], currGames[game][1], sch)))
+                                        (wishes[wish].IsSuitable(day, slot, currGames[game][0], currGames[game][1], sch, model)))
                                         wishRatio[day, slot] += wishes[wish].importancePercent;
 
                     int sum = 0;
@@ -169,7 +163,7 @@ namespace Core
             {
                 List<int> teams = new List<int>(schedule.teams);
                 for (int i = 0; i < schedule.teams; i++)
-                    teams[i] = i;
+                    teams.Add(i);
                 for (int i = 0; i < schedule.teams; i++)
                 {
                     int a = random.Next(teams.Count);
@@ -180,7 +174,7 @@ namespace Core
             List<int[]> c = new List<int[]>(toursInRound);
             for (int i = 0; i < toursInRound; i++)
             {
-                c[i] = new int[schedule.teams];
+                c.Add(new int[schedule.teams]);
                 for (int j = 0; j < schedule.teams; j++)
                     c[i][(j + i) % schedule.teams] = schedule.roundsTeams[round, j];
             }
@@ -227,7 +221,6 @@ namespace Core
             {
                 Schedule sch = algo.Solve(schedule);
                 int crit = model.Criterion(sch);
-
                 if (sch.filled)
                 {
                     if (crit > bestFilledCrit)

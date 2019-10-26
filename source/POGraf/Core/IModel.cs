@@ -20,7 +20,7 @@ namespace Core
         public int[] q; // Номера дней недели по дням
         public int[] w; // Номера недель по дням
         public int[] m; // Номера месяцев по дням
-        public Wish[] wishes; // Пожелания
+        public List<Wish> wishes; // Пожелания
 
         public Model InvalidModel()
         {
@@ -38,27 +38,30 @@ namespace Core
         {
             Schedule sch = new Schedule(schedule);
             int sum = 0;
-            for (int i = 0; i < wishes.Length; i++)
+            for (int i = 0; i < wishes.Count; i++)
             {
-                int plus = 0;
-                int minus = 0;
-                for (int j = 0; j < schedule.tours; j++)
-                    for (int k = 0; k < schedule.games; k++)
-                    {
-                        if (schedule.y[j, k].HasValue)
+                if (wishes[i].importancePercent < 100)
+                {
+                    int plus = 0;
+                    int minus = 0;
+                    for (int j = 0; j < schedule.tours; j++)
+                        for (int k = 0; k < schedule.games; k++)
                         {
-                            sch.y[j, k] = sch.z[j, k] = null;
-                            if (wishes[i].IsSuitable((int)schedule.y[j, k], (int)schedule.z[j, k], j, k, sch))
-                                plus++;
+                            if (schedule.y[j, k].HasValue)
+                            {
+                                sch.y[j, k] = sch.z[j, k] = null;
+                                if (wishes[i].IsSuitable((int)schedule.y[j, k], (int)schedule.z[j, k], j, k, sch, this))
+                                    plus++;
+                                else
+                                    minus++;
+                                sch.y[j, k] = schedule.y[j, k];
+                                sch.z[j, k] = schedule.z[j, k];
+                            }
                             else
                                 minus++;
-                            sch.y[j, k] = schedule.y[j, k];
-                            sch.z[j, k] = schedule.z[j, k];
                         }
-                        else
-                            minus++; ;
-                    }
-                sum += wishes[i].importancePercent * plus / (plus + minus);
+                    sum += wishes[i].importancePercent * plus / (plus + minus);
+                }
             }
             return sum;
         }
@@ -73,7 +76,7 @@ namespace Core
             this.importancePercent = importancePercent;
         }
 
-        public abstract bool IsSuitable(int day, int slot, int tour, int gameInTour, Schedule schedule);
+        public abstract bool IsSuitable(int day, int slot, int tour, int gameInTour, Schedule schedule, Model model);
     }
     public abstract class TeamWish : Wish
     {
@@ -85,13 +88,13 @@ namespace Core
         }
     }
 
-    public class ToursInOrderWish : Wish
+    public class ToursInOrder : Wish
     {
-        public ToursInOrderWish(int importancePercent) : base(importancePercent)
+        public ToursInOrder(int importancePercent) : base(importancePercent)
         {
         }
 
-        public override bool IsSuitable(int day, int slot, int tour, int gameInTour, Schedule schedule)
+        public override bool IsSuitable(int day, int slot, int tour, int gameInTour, Schedule schedule, Model model)
         {
             if (tour > 0)
             {
@@ -114,13 +117,80 @@ namespace Core
         {
         }
 
-        public override bool IsSuitable(int day, int slot, int tour, int gameInTour, Schedule schedule)
+        public override bool IsSuitable(int day, int slot, int tour, int gameInTour, Schedule schedule, Model model)
         {
             for (int i = 0; i < schedule.tours; i++)
                 for (int j = 0; j < schedule.games; j++)
                     if ((schedule.y[i, j] == day) && (schedule.z[i, j] == slot))
                         return false;
             return true;
+        }
+    }
+    public class Evenly : Wish
+    {
+        public Evenly(int importancePercent) : base(importancePercent)
+        {
+        }
+
+        public override bool IsSuitable(int day, int slot, int tour, int gameInTour, Schedule schedule, Model model)
+        {
+            if ((day >= (model.d * tour / schedule.tours)) && (day < (model.d * (tour + 1) / schedule.tours)))
+                return true;
+            else
+                return false;
+        }
+    }
+    public class MinMaxGamesDay : Wish
+    {
+        int min;
+        int max;
+        public MinMaxGamesDay(int importancePercent, int min, int max) : base(importancePercent)
+        {
+            this.min = min;
+            this.max = max;
+        }
+
+        public override bool IsSuitable(int day, int slot, int tour, int gameInTour, Schedule schedule, Model model)
+        {
+            int[] sum = new int[model.d];
+            for (int i = 0; i < day; i++)
+                sum[i] = 0;
+            int nul = 0;
+            for (int i = 0; i < schedule.tours; i++)
+                for (int j = 0; j < schedule.games; j++)
+                {
+                    if (schedule.y[i, j].HasValue)
+                        sum[(int)schedule.y[i, j]]++;
+                    else
+                        nul++;
+                }
+            if (sum[day] >= max)
+                return false;
+            else if (sum[day] >= min)
+            {
+                int a = 0;
+                for (int i = 0; i < model.d; i++)
+                    if ((sum[i] > 0) && (sum[i] < min))
+                        a += min - sum[i];
+                if (nul > a)
+                    return true;
+                else
+                    return false;
+            }
+            else if (sum[day] > 0)
+                return true;
+            else
+            {
+                int a = 0;
+                for (int i = 0; i < model.d; i++)
+                    if ((sum[i] > 0) && (sum[i] < min))
+                        a += min - sum[i];
+                a += min;
+                if (nul >= a)
+                    return true;
+                else
+                    return false;
+            }
         }
     }
 }
