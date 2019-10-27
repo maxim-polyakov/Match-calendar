@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Core
 {
-    public abstract class Algo
+    public abstract class IAlgo
     {
         public Model model;
         public List<int[]> criterion;
@@ -11,7 +11,7 @@ namespace Core
         public abstract Schedule Solve(Schedule schedule = null);
     }
 
-    public class GreedyAlgo : Algo
+    public class GreedyAlgo : IAlgo
     {
         protected int n; // Число команд
         protected int r; // Число турнирных кругов
@@ -199,12 +199,12 @@ namespace Core
         }
     }
 
-    public class IterAlgo : Algo
+    public class IterAlgo : IAlgo
     {
         protected int iter;
-        protected Algo algo;
+        protected IAlgo algo;
 
-        public IterAlgo(Algo algo, int iter = 100)
+        public IterAlgo(IAlgo algo, int iter = 100)
         {
             model = algo.model;
             this.iter = iter;

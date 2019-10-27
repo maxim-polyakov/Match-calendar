@@ -5,7 +5,7 @@ namespace Core
 {
     public interface IModel
     {
-        int[] Criterion(Answer answer);
+        int[] Criterion(IAnswer answer);
     }
 
     public class Model : IModel
@@ -29,7 +29,7 @@ namespace Core
             return model;
         }
 
-        public int[] Criterion(Answer answer)
+        public int[] Criterion(IAnswer answer)
         {
             return new int[1] { Criterion(answer.schedule) };
         }

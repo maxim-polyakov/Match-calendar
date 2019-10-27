@@ -20,13 +20,13 @@ namespace Presenter
         Model GetModel();
         IAnswer GetAnswer();
 
-        String GetHtml(DataTable dataTable);        
+        String GetHtml(DataTable dataTable);
     }
 
     public class Presenter : DataTable, IPresenter
     {
         protected Model mod;
-        protected IAnswer an;
+        protected Answer an;
 
         public String GetHtml(DataTable dataTable)
         {
@@ -96,7 +96,7 @@ namespace Presenter
             return an;
         }
 
-        public void ShowAnswer(Model mod, IAnswer ans, Loader.sсhedule model, string logName)
+        public void ShowAnswer(Model mod, Answer ans, Loader.sсhedule model, string logName)
         {
             LogGlobal.Join(Directory.GetCurrentDirectory() + "\\" + logName);
             LogGlobal.msg("");
@@ -104,18 +104,18 @@ namespace Presenter
             LogGlobal.msg(0, DateTime.Now.TimeOfDay + " Solver finished. Presenter start");
 
             this.SetAnswer(ans);
-            this.SetModel(mod);            
+            this.SetModel(mod);
 
             var dataTable = new DataTable();
 
-            int columnsNum = 4 * (2 * (ans.GetInfo().N - 1)); // Число туров
+            int columnsNum = ans.schedule.tours; // Число туров
             // Столбцы по числу туров            
             for (int i = 0; i < columnsNum; i++)
             {
                 dataTable.Columns.Add(i.ToString());
             }
 
-            int rowsNum = ans.GetInfo().N / 2; // Число матчей в туре
+            int rowsNum = ans.schedule.games; // Число матчей в туре
             // Строки по числу матчей            
             for (int j = 0; j < rowsNum; j++)
             {
@@ -124,29 +124,37 @@ namespace Presenter
                 //Соперник 1
                 for (int i = 0; i < columnsNum; i += 4)
                 {
-                    //Название команды по её порядковому номеру в Answer.Tours
-                    row[i.ToString()] = model.teams[ans.GetInfo().Tours[i/4,j,0]].name;
+                    if (ans[i / 4, j].teams != null)
+                        row[i.ToString()] = ans[i / 4, j].teams[0];
+                    else
+                        row[i.ToString()] = "";
                 }
 
                 //Соперник 2
                 for (int i = 1; i < columnsNum; i += 4)
                 {
-                    //Название команды по её порядковому номеру в Answer.Tours
-                    row[i.ToString()] = model.teams[ans.GetInfo().Tours[i/4,j,1]].name;
+                    if (ans[i / 4, j].teams != null)
+                        row[i.ToString()] = ans[i / 4, j].teams[1];
+                    else
+                        row[i.ToString()] = "";
                 }
 
                 //Дата матча
                 for (int i = 2; i < columnsNum; i += 4)
                 {
-                    //Дата j-го матча в i-ом туре по её порядковому номеру в Answer.Days
-                    row[i.ToString()] = mod.gameDates[ans.GetDays()[(i - 2) / 4, j]].ToShortDateString().ToString();
+                    if (ans[(i - 2) / 4, j].DateTime.HasValue)
+                        row[i.ToString()] = ((DateTime)ans[(i - 2) / 4, j].DateTime).ToShortDateString().ToString();
+                    else
+                        row[i.ToString()] = "";
                 }
 
                 //Время матча
                 for (int i = 3; i < columnsNum; i += 4)
                 {
-                    //Время j-го матча в i-ом туре по его порядковому номеру в Answer.Hours
-                    row[i.ToString()] = model.stadium.time[(ans.GetHours()[(i - 3) / 4, j])];
+                    if (ans[(i - 3) / 4, j].DateTime.HasValue)
+                        row[i.ToString()] = model.stadium.time[(int)ans.schedule.z[(i - 3) / 4, j]];
+                    else
+                        row[i.ToString()] = "";
                 }
 
                 dataTable.Rows.Add(row);
@@ -161,7 +169,7 @@ namespace Presenter
 
                 fstream.Write(input, 0, input.Length);
                 LogGlobal.msg(0, DateTime.Now.TimeOfDay + " Presenter finished");
-            }        
+            }
         }
 
         public void ShowCrit(List<int[]> l)
@@ -176,14 +184,14 @@ namespace Presenter
             {
                 var row = dataTable.NewRow();
 
-                
+
                 for (int i = 0; i < l[i].Length; i += 1)
                 {
-                   
+
                     row[i.ToString()] = l[i][j].ToString();
                 }
 
-                
+
 
                 dataTable.Rows.Add(row);
             }
@@ -195,7 +203,7 @@ namespace Presenter
                 byte[] input = Encoding.Default.GetBytes(html);
 
                 fstream.Write(input, 0, input.Length);
-               
+
             }
 
         }

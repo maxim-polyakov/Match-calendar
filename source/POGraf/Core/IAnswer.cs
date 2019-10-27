@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace Core
 {
-    public class Answer
+    public class IAnswer
     {
         public Schedule schedule;
         protected string[] teams;
         protected DateTime[,] timeSlots;
 
-        public Answer(Schedule schedule, DateTime[,] timeSlots, string[] teams)
+        public IAnswer(Schedule schedule, DateTime[,] timeSlots, string[] teams)
         {
             this.schedule = schedule;
             this.teams = teams;
