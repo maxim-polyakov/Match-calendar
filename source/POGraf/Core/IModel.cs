@@ -196,9 +196,9 @@ namespace Core
     public class DayTeamWish : TeamWish
     {
         int[] days;
-        public DayTeamWish(int importancePercent, int team, int[] day) : base(importancePercent, team)
+        public DayTeamWish(int importancePercent, int team, int[] days) : base(importancePercent, team)
         {
-            this.day = day;
+            this.days = days;
         }
         public override bool IsSuitable(int day, int slot, int tour, int gameInTour, Schedule schedule, Model model)
         {
