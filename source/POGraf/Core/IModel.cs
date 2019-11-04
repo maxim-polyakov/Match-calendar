@@ -193,4 +193,65 @@ namespace Core
             }
         }
     }
+    public class DayTeamWish : TeamWish
+    {
+        int[] days;
+        public DayTeamWish(int importancePercent, int team, int[] day) : base(importancePercent, team)
+        {
+            this.day = day;
+        }
+        public override bool IsSuitable(int day, int slot, int tour, int gameInTour, Schedule schedule, Model model)
+        {
+            if ((schedule.x[tour, gameInTour, 0] == team) || (schedule.x[tour, gameInTour, 1] == team))
+            {
+                for (int i = 0; i < days.Length; i++)
+                    if (days[i] == day)
+                        return true;
+                return false;
+            }
+            else
+                return true;
+        }
+    }
+    public class TimeSlotTeamWish : TeamWish
+    {
+        int[] slots;
+        public TimeSlotTeamWish(int importancePercent, int team, int[] slots) : base(importancePercent, team)
+        {
+            this.slots = slots;
+        }
+        public override bool IsSuitable(int day, int slot, int tour, int gameInTour, Schedule schedule, Model model)
+        {
+            if ((schedule.x[tour, gameInTour, 0] == team) || (schedule.x[tour, gameInTour, 1] == team))
+            {
+                for (int i = 0; i < slots.Length; i++)
+                    if (slots[i] == slot)
+                        return true;
+                return false;
+            }
+            else
+                return true;
+        }
+    }
+    public class DayTimeSlotTeamWish : TeamWish
+    {
+        int[][] daysSlots;
+
+        public DayTimeSlotTeamWish(int importancePercent, int team, int[][] daysSlots) : base(importancePercent, team)
+        {
+            this.daysSlots = daysSlots;
+        }
+        public override bool IsSuitable(int day, int slot, int tour, int gameInTour, Schedule schedule, Model model)
+        {
+            if ((schedule.x[tour, gameInTour, 0] == team) || (schedule.x[tour, gameInTour, 1] == team))
+            {
+                for (int i = 0; i < daysSlots.Length; i++)
+                    if ((daysSlots[i][0] == day) && (daysSlots[i][1] == slot))
+                        return true;
+                return false;
+            }
+            else
+                return true;
+        }
+    }
 }
