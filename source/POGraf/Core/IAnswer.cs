@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace Core
 {
-    public class IAnswer
+    public class Answer
     {
         public Schedule schedule;
         protected string[] teams;
         protected DateTime[,] timeSlots;
 
-        public IAnswer(Schedule schedule, DateTime[,] timeSlots, string[] teams)
+        public Answer(Schedule schedule, DateTime[,] timeSlots, string[] teams)
         {
             this.schedule = schedule;
             this.teams = teams;
@@ -97,10 +97,6 @@ namespace Core
             for (int i = 0; i < rounds; i++)
                 for (int j = 0; j < teams; j++)
                     roundsTeams[i, j] = schedule.roundsTeams[i, j];
-        }
-
-        public void Sort()
-        {
         }
     }
 }

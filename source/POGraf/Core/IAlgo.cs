@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Core
 {
-    public abstract class IAlgo
+    public abstract class Algo
     {
         public Model model;
         public List<int[]> criterion;
@@ -11,7 +11,7 @@ namespace Core
         public abstract Schedule Solve(Schedule schedule = null);
     }
 
-    public class GreedyAlgo : IAlgo
+    public class GreedyAlgo : Algo
     {
         protected int n; // Число команд
         protected int r; // Число турнирных кругов
@@ -21,9 +21,10 @@ namespace Core
         protected int d; // Число дней
         protected Wish[] wishes; // Пожелания
 
-        protected int minGamesСonsid;
+        public int minGamesСonsid;
+        public int coeffRandom;
 
-        public GreedyAlgo(Model model, int minGamesСonsid = 2)
+        public GreedyAlgo(Model model, int coeffRandom = 10, int minGamesСonsid = 2)
         {
             this.model = model;
             n = model.n;
@@ -33,6 +34,7 @@ namespace Core
             t = r * (n - 1 + n % 2);
             g = n / 2 + n % 2;
             wishes = model.wishes.ToArray();
+            this.coeffRandom = coeffRandom;
             this.minGamesСonsid = minGamesСonsid;
         }
 
@@ -100,11 +102,11 @@ namespace Core
                 if (minDemSuitSumGame.HasValue)
                 {
                     int game = (int)minDemSuitSumGame;
-                    int[,] wishRatio = new int[d, s];
+                    ulong[,] wishRatio = new ulong[d, s];
                     for (int day = 0; day < d; day++)
                         for (int slot = 0; slot < s; slot++)
                             if (demSuit[game, day, slot] == true)
-                                wishRatio[day, slot] = 10;
+                                wishRatio[day, slot] = 1;
                             else
                                 wishRatio[day, slot] = 0;
                     for (int wish = 0; wish < wishes.Length; wish++)
@@ -113,21 +115,33 @@ namespace Core
                                 for (int slot = 0; slot < s; slot++)
                                     if ((wishRatio[day, slot] != 0) &&
                                         (wishes[wish].IsSuitable(day, slot, currGames[game][0], currGames[game][1], sch, model)))
-                                        wishRatio[day, slot] += wishes[wish].importancePercent;
+                                        wishRatio[day, slot] *= (ulong)wishes[wish].importancePercent * ((ulong)101 - (ulong)coeffRandom) / (ulong)10;
 
-                    int sum = 0;
+                    ulong usum = 0;
                     for (int day = 0; day < d; day++)
                         for (int slot = 0; slot < s; slot++)
-                            sum += wishRatio[day, slot];
+                            usum += wishRatio[day, slot];
+                    if (usum > int.MaxValue)
+                    {
+                        ulong b = (usum + int.MaxValue - 1) / int.MaxValue;
+                        usum = 0;
+                        for (int day = 0; day < d; day++)
+                            for (int slot = 0; slot < s; slot++)
+                            {
+                                wishRatio[day, slot] = (wishRatio[day, slot] + b - 1) / b;
+                                usum += wishRatio[day, slot];
+                            }
+                    }
+
                     Random random = new Random();
-                    int a = random.Next(sum);
-                    sum = 0;
+                    int a = random.Next((int)usum);
+                    int sum = 0;
                     int selDay = 0;
                     int selSlot = 0;
                     for (int i = 0; i < d; i++)
                         for (int j = 0; j < s; j++)
                         {
-                            sum += wishRatio[i, j];
+                            sum += (int)wishRatio[i, j];
                             if (sum > a)
                             {
                                 selDay = i;
@@ -150,7 +164,10 @@ namespace Core
             if (currGames.Count == 0)
                 sch.filled = true;
 
-            criterion.Add(new int[1] { model.Criterion(sch) });
+            criterion = new List<int[]>();
+            criterion.Add(new int[model.criteria.Count]);
+            for (int i = 0; i < model.criteria.Count; i++)
+                criterion[0][i] = model.criteria[i].Value(sch);
             return sch;
         }
 
@@ -199,12 +216,12 @@ namespace Core
         }
     }
 
-    public class IterAlgo : IAlgo
+    public class IterAlgo : Algo
     {
         protected int iter;
-        protected IAlgo algo;
+        protected Algo algo;
 
-        public IterAlgo(IAlgo algo, int iter = 100)
+        public IterAlgo(Algo algo, int iter = 100)
         {
             model = algo.model;
             this.iter = iter;
@@ -214,26 +231,36 @@ namespace Core
         public override Schedule Solve(Schedule schedule = null)
         {
             Schedule bestFilledSchedule = null;
-            int bestFilledCrit = 0;
+            int bestFilledCrit = int.MaxValue;
             Schedule bestNotFilledSchedule = null;
             int bestNotFilledCrit = 0;
+            criterion = new List<int[]>();
             for (int i = 0; i < iter; i++)
             {
                 Schedule sch = algo.Solve(schedule);
-                int crit = model.Criterion(sch);
+                int[] crit = algo.criterion[algo.criterion.Count - 1];
+                int sumCrit = 0;
+                for (int j = 0; j < crit.Length; j++)
+                    sumCrit += crit[j] * model.criteria[j].importancePercent;
+                sumCrit = (sumCrit + 100 - 1) / 100;
                 if (sch.filled)
                 {
-                    if (crit > bestFilledCrit)
+                    if (sumCrit < bestFilledCrit)
                     {
                         bestFilledSchedule = sch;
-                        bestFilledCrit = crit;
-                        criterion.Add(new int[1] { crit });
+                        bestFilledCrit = sumCrit;
+                        criterion.Add(new int[model.criteria.Count]);
+                        for (int i = 0; i < model.criteria.Count; i++)
+                            criterion[Count - 1][i] = crit[i];
                     }
                 }
-                else if (crit > bestNotFilledCrit)
+                else if (sumCrit < bestNotFilledCrit)
                 {
                     bestNotFilledSchedule = sch;
-                    bestNotFilledCrit = crit;
+                    bestNotFilledCrit = sumCrit;
+                    criterion.Add(new int[model.criteria.Count]);
+                    for (int i = 0; i < model.criteria.Count; i++)
+                        criterion[Count - 1][i] = crit[i];
                 }
             }
             if (bestFilledSchedule != null)

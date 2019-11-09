@@ -11,16 +11,14 @@ namespace Core
     public class Model : IModel
     {
         public bool invalid; // Флаг корректности модели
-        public List<DateTime> gameDates; // Список дат игровых дней
 
         public int n; // Число команд
         public int r; // Число турнирных кругов
         public int s; // Число временных слотов в день
         public int d; // Число дней
-        public int[] q; // Номера дней недели по дням
-        public int[] w; // Номера недель по дням
-        public int[] m; // Номера месяцев по дням
-        public List<Wish> wishes; // Пожелания
+        public List<DateTime> dates;
+        public List<Wish> wishes;
+        public List<Criterion> criteria;
 
         public Model InvalidModel()
         {
@@ -29,41 +27,17 @@ namespace Core
             return model;
         }
 
-        public int[] Criterion(IAnswer answer)
+        public Model(int teams, int rounds, int slotsPerDay, List<DateTime> dates)
         {
-            return new int[1] { Criterion(answer.schedule) };
-        }
-
-        public int Criterion(Schedule schedule)
-        {
-            Schedule sch = new Schedule(schedule);
-            int sum = 0;
-            for (int i = 0; i < wishes.Count; i++)
-            {
-                if (wishes[i].importancePercent < 100)
-                {
-                    int plus = 0;
-                    int minus = 0;
-                    for (int j = 0; j < schedule.tours; j++)
-                        for (int k = 0; k < schedule.games; k++)
-                        {
-                            if (schedule.y[j, k].HasValue)
-                            {
-                                sch.y[j, k] = sch.z[j, k] = null;
-                                if (wishes[i].IsSuitable((int)schedule.y[j, k], (int)schedule.z[j, k], j, k, sch, this))
-                                    plus++;
-                                else
-                                    minus++;
-                                sch.y[j, k] = schedule.y[j, k];
-                                sch.z[j, k] = schedule.z[j, k];
-                            }
-                            else
-                                minus++;
-                        }
-                    sum += wishes[i].importancePercent * plus / (plus + minus);
-                }
-            }
-            return sum;
+            n = teams;
+            r = rounds;
+            s = slotsPerDay;
+            this.dates = dates;
+            d = dates.Count;
+            wishes = new List<Wish>();
+            criteria = new List<Criterion>();
+            criteria.Add(new OrganizerCriterion(this));
+            criteria.Add(new TeamsCriterion(this));
         }
     }
 
@@ -196,9 +170,11 @@ namespace Core
     public class DayTeamWish : TeamWish
     {
         int[] days;
-        public DayTeamWish(int importancePercent, int team, int[] days) : base(importancePercent, team)
+        bool wish;
+        public DayTeamWish(int importancePercent, int team, int[] days, bool wish = true) : base(importancePercent, team)
         {
             this.days = days;
+            this.wish = wish;
         }
         public override bool IsSuitable(int day, int slot, int tour, int gameInTour, Schedule schedule, Model model)
         {
@@ -206,8 +182,14 @@ namespace Core
             {
                 for (int i = 0; i < days.Length; i++)
                     if (days[i] == day)
-                        return true;
-                return false;
+                        if (wish)
+                            return true;
+                        else
+                            return false;
+                if (wish)
+                    return false;
+                else
+                    return true;
             }
             else
                 return true;
@@ -216,9 +198,11 @@ namespace Core
     public class TimeSlotTeamWish : TeamWish
     {
         int[] slots;
-        public TimeSlotTeamWish(int importancePercent, int team, int[] slots) : base(importancePercent, team)
+        bool wish;
+        public TimeSlotTeamWish(int importancePercent, int team, int[] slots, bool wish = true) : base(importancePercent, team)
         {
             this.slots = slots;
+            this.wish = wish;
         }
         public override bool IsSuitable(int day, int slot, int tour, int gameInTour, Schedule schedule, Model model)
         {
@@ -226,8 +210,14 @@ namespace Core
             {
                 for (int i = 0; i < slots.Length; i++)
                     if (slots[i] == slot)
-                        return true;
-                return false;
+                        if (wish)
+                            return true;
+                        else
+                            return false;
+                if (wish)
+                    return false;
+                else
+                    return true;
             }
             else
                 return true;
@@ -236,10 +226,12 @@ namespace Core
     public class DayTimeSlotTeamWish : TeamWish
     {
         int[][] daysSlots;
+        bool wish;
 
-        public DayTimeSlotTeamWish(int importancePercent, int team, int[][] daysSlots) : base(importancePercent, team)
+        public DayTimeSlotTeamWish(int importancePercent, int team, int[][] daysSlots, bool wish = true) : base(importancePercent, team)
         {
             this.daysSlots = daysSlots;
+            this.wish = wish;
         }
         public override bool IsSuitable(int day, int slot, int tour, int gameInTour, Schedule schedule, Model model)
         {
@@ -247,11 +239,107 @@ namespace Core
             {
                 for (int i = 0; i < daysSlots.Length; i++)
                     if ((daysSlots[i][0] == day) && (daysSlots[i][1] == slot))
-                        return true;
-                return false;
+                    {
+                        if (wish)
+                            return true;
+                        else
+                            return false;
+                    }
+                if (wish)
+                    return false;
+                else
+                    return true;
             }
             else
                 return true;
+        }
+    }
+
+    public abstract class Criterion
+    {
+        public int importancePercent;
+        protected Model model;
+        public Criterion(Model model, int importancePercent)
+        {
+            this.model = model;
+            this.importancePercent = importancePercent;
+        }
+        public abstract int Value(Schedule schedule);
+    }
+    public class OrganizerCriterion : Criterion
+    {
+        public OrganizerCriterion(Model model, int importancePercent = 100) : base(model, importancePercent)
+        {
+        }
+        public override int Value(Schedule schedule)
+        {
+            Schedule sch = new Schedule(schedule);
+            int value = 0;
+            for (int i = 0; i < model.wishes.Count; i++)
+            {
+                if ((model.wishes[i].importancePercent < 100) && (!(model.wishes[i] is TeamWish)))
+                {
+                    int numNotSuitable = 0;
+                    for (int j = 0; j < schedule.tours; j++)
+                        for (int k = 0; k < schedule.games; k++)
+                        {
+                            if (schedule.y[j, k].HasValue)
+                            {
+                                sch.y[j, k] = sch.z[j, k] = null;
+                                if (!model.wishes[i].IsSuitable((int)schedule.y[j, k], (int)schedule.z[j, k], j, k, sch, model))
+                                    numNotSuitable++;
+                                sch.y[j, k] = schedule.y[j, k];
+                                sch.z[j, k] = schedule.z[j, k];
+                            }
+                            else
+                                numNotSuitable++;
+                        }
+                    value += model.wishes[i].importancePercent * numNotSuitable;
+                }
+            }
+            value = (value + 99 - 1) / 99;
+            return value;
+        }
+    }
+    public class TeamsCriterion : Criterion
+    {
+        public TeamsCriterion(Model model, int importancePercent = 100) : base(model, importancePercent)
+        {
+        }
+        public override int Value(Schedule schedule)
+        {
+            Schedule sch = new Schedule(schedule);
+            int value = 0;
+            int[] cfFailsTeams = new int[model.n];
+            int[] numWishesTeam = new int[model.n];
+            for (int i = 0; i < model.wishes.Count; i++)
+            {
+                if ((model.wishes[i].importancePercent < 100) && (model.wishes[i] is TeamWish))
+                {
+                    int numNotSuitable = 0;
+                    for (int j = 0; j < schedule.tours; j++)
+                        for (int k = 0; k < schedule.games; k++)
+                        {
+                            if (schedule.y[j, k].HasValue)
+                            {
+                                sch.y[j, k] = sch.z[j, k] = null;
+                                if (!model.wishes[i].IsSuitable((int)schedule.y[j, k], (int)schedule.z[j, k], j, k, sch, model))
+                                    numNotSuitable++;
+                                sch.y[j, k] = schedule.y[j, k];
+                                sch.z[j, k] = schedule.z[j, k];
+                            }
+                            else
+                                numNotSuitable++;
+                        }
+                    cfFailsTeams[((TeamWish)(model.wishes[i])).team] += model.wishes[i].importancePercent * numNotSuitable;
+                    numWishesTeam[((TeamWish)(model.wishes[i])).team] += 1;
+                }
+            }
+            for (int i = 0; i < model.n; i++)
+                if (numWishesTeam[i] > 0)
+                    value += cfFailsTeams[i] / numWishesTeam[i];
+            value = (value + 99 - 1) / 99;
+            return value;
         }
     }
 }
