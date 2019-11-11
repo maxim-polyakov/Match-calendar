@@ -24,7 +24,7 @@ namespace Core
         public int minGamesСonsid;
         public int coeffRandom;
 
-        public GreedyAlgo(Model model, int coeffRandom = 10, int minGamesСonsid = 2)
+        public GreedyAlgo(Model model, int coeffRandom = 3, int minGamesСonsid = 1)
         {
             this.model = model;
             n = model.n;
@@ -72,87 +72,121 @@ namespace Core
                 }
 
                 bool[,,] demSuit = new bool[currGames.Count, d, s];
-                int minDemSuitSum = int.MaxValue;
+                int[] demSuitCoeff = new int[currGames.Count];
                 int? minDemSuitSumGame = null;
                 for (int game = 0; game < currGames.Count; game++)
                 {
-                    int demSuitSum = d * s;
                     for (int day = 0; day < d; day++)
                         for (int slot = 0; slot < s; slot++)
+                        {
                             demSuit[game, day, slot] = true;
+                            demSuitCoeff[game] = 1;
+                        }
                     for (int wish = 0; wish < wishes.Length; wish++)
                     {
-                        if (wishes[wish].importancePercent == 100)
+                        if ((wishes[wish].importancePercent == 100) && (!(wishes[wish] is RivalsWish)))
                             for (int day = 0; day < d; day++)
                                 for (int slot = 0; slot < s; slot++)
                                     if (demSuit[game, day, slot] == true)
                                         if (wishes[wish].IsSuitable(day, slot, currGames[game][0], currGames[game][1], sch, model) == false)
                                         {
                                             demSuit[game, day, slot] = false;
-                                            demSuitSum--;
+                                            demSuitCoeff[game]++;
                                         }
                     }
-                    if ((demSuitSum < minDemSuitSum) && (demSuitSum != 0))
-                    {
-                        minDemSuitSum = demSuitSum;
-                        minDemSuitSumGame = game;
-                    }
+                    if ((minDemSuitSumGame == null) && (demSuitCoeff[game] <= d * s))
+                        minDemSuitSumGame = -1;
                 }
 
                 if (minDemSuitSumGame.HasValue)
                 {
-                    int game = (int)minDemSuitSumGame;
-                    ulong[,] wishRatio = new ulong[d, s];
-                    for (int day = 0; day < d; day++)
-                        for (int slot = 0; slot < s; slot++)
-                            if (demSuit[game, day, slot] == true)
-                                wishRatio[day, slot] = 1;
-                            else
-                                wishRatio[day, slot] = 0;
-                    for (int wish = 0; wish < wishes.Length; wish++)
-                        if (wishes[wish].importancePercent < 100)
-                            for (int day = 0; day < d; day++)
-                                for (int slot = 0; slot < s; slot++)
-                                    if ((wishRatio[day, slot] != 0) &&
-                                        (wishes[wish].IsSuitable(day, slot, currGames[game][0], currGames[game][1], sch, model)))
-                                        wishRatio[day, slot] *= (ulong)wishes[wish].importancePercent * ((ulong)101 - (ulong)coeffRandom) / (ulong)10;
-
-                    ulong usum = 0;
-                    for (int day = 0; day < d; day++)
-                        for (int slot = 0; slot < s; slot++)
-                            usum += wishRatio[day, slot];
-                    if (usum > int.MaxValue)
                     {
-                        ulong b = (usum + int.MaxValue - 1) / int.MaxValue;
-                        usum = 0;
-                        for (int day = 0; day < d; day++)
-                            for (int slot = 0; slot < s; slot++)
-                            {
-                                wishRatio[day, slot] = (wishRatio[day, slot] + b - 1) / b;
-                                usum += wishRatio[day, slot];
-                            }
-                    }
-
-                    Random random = new Random();
-                    int a = random.Next((int)usum);
-                    int sum = 0;
-                    int selDay = 0;
-                    int selSlot = 0;
-                    for (int i = 0; i < d; i++)
-                        for (int j = 0; j < s; j++)
+                        Random random = new Random();
+                        int sum = 0;
+                        for (int i = 0; i < currGames.Count; i++)
+                            sum += demSuitCoeff[i];
+                        int a = random.Next(sum);
+                        for (int i = 0; i < currGames.Count; i++)
                         {
-                            sum += (int)wishRatio[i, j];
-                            if (sum > a)
+                            a -= demSuitCoeff[i];
+                            if (a < 0)
                             {
-                                selDay = i;
-                                selSlot = j;
-                                i = d;
+                                minDemSuitSumGame = i;
                                 break;
                             }
                         }
-                    sch.y[currGames[game][0], currGames[game][1]] = selDay;
-                    sch.z[currGames[game][0], currGames[game][1]] = selSlot;
-                    currGames.RemoveAt(game);
+                    }
+
+                    {
+                        int game = (int)minDemSuitSumGame;
+                        ulong[,] wishRatio = new ulong[d, s];
+                        for (int day = 0; day < d; day++)
+                            for (int slot = 0; slot < s; slot++)
+                                if (demSuit[game, day, slot] == true)
+                                    wishRatio[day, slot] = 1;
+                                else
+                                    wishRatio[day, slot] = 0;
+                        bool ulongExcess = false;
+                        for (int wish = 0; wish < wishes.Length; wish++)
+                            if ((wishes[wish].importancePercent < 100) && (!(wishes[wish] is RivalsWish)))
+                            {
+                                for (int day = 0; day < d; day++)
+                                    for (int slot = 0; slot < s; slot++)
+                                    {
+                                        if ((wishRatio[day, slot] != 0) &&
+                                            (wishes[wish].IsSuitable(day, slot, currGames[game][0], currGames[game][1], sch, model)))
+                                        {
+                                            wishRatio[day, slot] *= (ulong)wishes[wish].importancePercent * ((ulong)101 - (ulong)coeffRandom) / (ulong)10;
+                                            if (wishRatio[day, slot] > ulong.MaxValue / 1000)
+                                                ulongExcess = true;
+                                        }
+                                    }
+                                if (ulongExcess)
+                                {
+                                    for (int day = 0; day < d; day++)
+                                        for (int slot = 0; slot < s; slot++)
+                                            wishRatio[day, slot] = (wishRatio[day, slot] + 1000 - 1) / 1000;
+                                    ulongExcess = false;
+                                }
+                            }
+                        ulong usum = 0;
+                        for (int day = 0; day < d; day++)
+                            for (int slot = 0; slot < s; slot++)
+                                usum += wishRatio[day, slot];
+                        while (usum > int.MaxValue)
+                        {
+                            ulong b = 10;
+                            usum = 0;
+                            for (int day = 0; day < d; day++)
+                                for (int slot = 0; slot < s; slot++)
+                                {
+                                    wishRatio[day, slot] = (wishRatio[day, slot] + b - 1) / b;
+                                    usum += wishRatio[day, slot];
+                                }
+                        }
+
+                        Random random = new Random();
+                        int a = random.Next((int)usum);
+                        int sum = 0;
+                        int selDay = 0;
+                        int selSlot = 0;
+                        for (int i = 0; i < d; i++)
+                            for (int j = 0; j < s; j++)
+                            {
+                                sum += (int)wishRatio[i, j];
+                                if (sum > a)
+                                {
+                                    selDay = i;
+                                    selSlot = j;
+                                    i = d;
+                                    break;
+                                }
+                            }
+                        sch.y[currGames[game][0], currGames[game][1]] = selDay;
+                        sch.z[currGames[game][0], currGames[game][1]] = selSlot;
+                        currGames.RemoveAt(game);
+                    }
+
                 }
                 else if (firstFreeTour < t)
                     minGamesСonsid++;
