@@ -3,37 +3,35 @@ using System.Collections.Generic;
 
 namespace Core
 {
-    public interface IModel
-    {
-        int[] Criterion(IAnswer answer);
-    }
-
-    public class Model : IModel
+    public class Model
     {
         public bool invalid; // Флаг корректности модели
 
-        public int n; // Число команд
+        public int n
+        {
+            get { return teams.Length; }
+        }
         public int r; // Число турнирных кругов
-        public int s; // Число временных слотов в день
-        public int d; // Число дней
+        public int d
+        {
+            get { return dates.Count; }
+        }
+        public int s
+        {
+            get { return times.Count; }
+        }
         public List<DateTime> dates;
+        public List<int> times;
         public List<Wish> wishes;
         public List<Criterion> criteria;
+        public string[] teams;
 
-        public Model InvalidModel()
+        public Model(string[] teams, int rounds, List<DateTime> dates, List<int> times)
         {
-            Model model = new Model();
-            model.invalid = true;
-            return model;
-        }
-
-        public Model(int teams, int rounds, int slotsPerDay, List<DateTime> dates)
-        {
-            n = teams;
+            this.teams = (string[])teams.Clone();
             r = rounds;
-            s = slotsPerDay;
-            this.dates = dates;
-            d = dates.Count;
+            this.dates = new List<DateTime>(dates);
+            this.times = new List<int>(times);
             wishes = new List<Wish>();
             criteria = new List<Criterion>();
             criteria.Add(new OrganizerCriterion(this));
@@ -75,7 +73,7 @@ namespace Core
         public abstract int numErrors(Schedule schedule, Model model);
     }
 
-    public class ToursInOrder : Wish
+    public class ToursInOrder : WithNumErrorsWish
     {
         public ToursInOrder(int importancePercent) : base(importancePercent)
         {
@@ -119,6 +117,54 @@ namespace Core
                     c = min;
             }
             return ((a >= b) && (a < c));
+        }
+
+        public override int numErrors(Schedule schedule, Model model)
+        {
+            List<int[]>[,] vs = new List<int[]>[schedule.tours, schedule.games];
+            for (int i = 0; i < schedule.tours; i++)
+                for (int j = 0; j < schedule.games; j++)
+                    vs[i, j] = new List<int[]>();
+            for (int tour = 0; tour < schedule.tours; tour++)
+                for (int game = 0; game < schedule.games; game++)
+                    if (schedule.y[tour, game].HasValue)
+                        for (int i = tour + 1; i < schedule.tours; i++)
+                            for (int j = 0; j < schedule.games; j++)
+                                if (schedule.y[i, j].HasValue)
+                                    if ((schedule.y[tour, game] > schedule.y[i, j])
+                                        || ((schedule.y[tour, game] == schedule.y[i, j]) && (schedule.z[tour, game] > schedule.z[i, j])))
+                                    {
+                                        vs[tour, game].Add(new int[2] { i, j });
+                                        vs[i, j].Add(new int[2] { tour, game });
+                                    }
+            int[] tg = new int[2];
+            int value = 0;
+            for (int max = 0; ; max = 0)
+            {
+                for (int i = 0; i < schedule.tours; i++)
+                    for (int j = 0; j < schedule.games; j++)
+                        if (vs[i, j].Count > max)
+                        {
+                            max = vs[i, j].Count;
+                            tg[0] = i;
+                            tg[1] = j;
+                        }
+                if (max > 0)
+                {
+                    value++;
+                    for (int i = 0; i < vs[tg[0], tg[1]].Count; i++)
+                    {
+                        int[] a = vs[tg[0], tg[1]][i];
+                        for (int k = 0; k < vs[a[0], a[1]].Count; k++)
+                            if ((vs[a[0], a[1]][k][0] == tg[0]) && (vs[a[0], a[1]][k][1] == tg[1]))
+                                vs[a[0], a[1]].RemoveAt(k);
+                    }
+                    vs[tg[0], tg[1]] = new List<int[]>();
+                }
+                else
+                    break;
+            }
+            return value;
         }
     }
     public class DayOfWeekWish : Wish
@@ -347,19 +393,6 @@ namespace Core
             }
         }
     }
-    public class Similar : Wish //
-    {
-        Schedule schedule;
-        public Similar(int importancePercent, Schedule schedule) : base(importancePercent)
-        {
-            this.schedule = schedule;
-        }
-
-        public override bool IsSuitable(int day, int slot, int tour, int gameInTour, Schedule schedule, Model model)
-        {
-            return true;
-        }
-    }
     public class DayTeamWish : TeamWish
     {
         int[] days;
@@ -518,10 +551,8 @@ namespace Core
 
                     }
                     value += model.wishes[i].importancePercent * numErrors;
-                    //Console.Write("{0} ", numErrors);
                 }
             }
-            //Console.WriteLine();
             value = (value + 99 - 1) / 99;
             return value;
         }
@@ -558,10 +589,8 @@ namespace Core
                         }
                     cfFailsTeams[((TeamWish)(model.wishes[i])).team] += model.wishes[i].importancePercent * numNotSuitable;
                     numWishesTeam[((TeamWish)(model.wishes[i])).team] += 1;
-                    //Console.Write("{0} ", numNotSuitable);
                 }
             }
-            //Console.WriteLine();
             for (int i = 0; i < model.n; i++)
                 if (numWishesTeam[i] > 0)
                     value += cfFailsTeams[i] / numWishesTeam[i];

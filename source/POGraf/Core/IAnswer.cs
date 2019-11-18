@@ -6,48 +6,6 @@ using System.Threading.Tasks;
 
 namespace Core
 {
-    public class Answer
-    {
-        public Schedule schedule;
-        protected string[] teams;
-        protected DateTime[,] timeSlots;
-
-        public Answer(Schedule schedule, DateTime[,] timeSlots, string[] teams)
-        {
-            this.schedule = schedule;
-            this.teams = teams;
-            this.timeSlots = timeSlots;
-        }
-
-        public Game this[int i, int j]
-        {
-            get
-            {
-                if ((i < schedule.tours) && (j < schedule.games))
-                {
-                    Game game = new Game();
-                    if (schedule.x[i, j, 0] != null)
-                        game.teams = new string[2] { teams[(int)schedule.x[i, j, 0]], teams[(int)schedule.x[i, j, 1]] };
-                    else
-                        game.teams = null;
-                    if (schedule.y[i, j] != null)
-                        game.DateTime = timeSlots[(int)schedule.y[i, j], (int)schedule.z[i, j]];
-                    else
-                        game.DateTime = null;
-                    return game;
-                }
-                else
-                    return null;
-            }
-        }
-    }
-
-    public class Game
-    {
-        public string[] teams;
-        public DateTime? DateTime;
-    }
-
     public class Schedule
     {
         public int teams;
@@ -98,5 +56,47 @@ namespace Core
                 for (int j = 0; j < teams; j++)
                     roundsTeams[i, j] = schedule.roundsTeams[i, j];
         }
+    }
+
+    public class Answer
+    {
+        public Schedule schedule;
+        protected string[] teams;
+        protected DateTime[,] timeSlots;
+
+        public Answer(Schedule schedule, DateTime[,] timeSlots, string[] teams)
+        {
+            this.schedule = schedule;
+            this.teams = teams;
+            this.timeSlots = timeSlots;
+        }
+
+        public Game this[int i, int j]
+        {
+            get
+            {
+                if ((i < schedule.tours) && (j < schedule.games))
+                {
+                    Game game = new Game();
+                    if (schedule.x[i, j, 0] != null)
+                        game.teams = new string[2] { teams[(int)schedule.x[i, j, 0]], teams[(int)schedule.x[i, j, 1]] };
+                    else
+                        game.teams = null;
+                    if (schedule.y[i, j] != null)
+                        game.DateTime = timeSlots[(int)schedule.y[i, j], (int)schedule.z[i, j]];
+                    else
+                        game.DateTime = null;
+                    return game;
+                }
+                else
+                    return null;
+            }
+        }
+    }
+
+    public class Game
+    {
+        public string[] teams;
+        public DateTime? DateTime;
     }
 }
