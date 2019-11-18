@@ -64,11 +64,14 @@ namespace Core
         protected string[] teams;
         protected DateTime[,] timeSlots;
 
-        public Answer(Schedule schedule, DateTime[,] timeSlots, string[] teams)
+        public Answer(Schedule schedule, Model model)
         {
-            this.schedule = schedule;
-            this.teams = teams;
-            this.timeSlots = timeSlots;
+            this.schedule = new Schedule(schedule);
+            this.teams = (string[])model.teams.Clone();
+            this.timeSlots = new DateTime[model.d, model.s];
+            for (int i = 0; i < model.d; i++)
+                for (int j = 0; j < model.s; j++)
+                    timeSlots[i, j] = model.dates[i].AddHours(model.times[j]);
         }
 
         public Game this[int i, int j]

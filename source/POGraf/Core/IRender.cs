@@ -8,12 +8,12 @@ namespace Core
 {
     public interface IRender
     {
-        void RenderTo(IAnswer answer);
+        void RenderTo(Answer answer);
     }
 
     public class ConsoleRender : IRender
     {
-        public void RenderTo(IAnswer answer)
+        public void RenderTo(Answer answer)
         {
             Console.WriteLine("answer");
         }

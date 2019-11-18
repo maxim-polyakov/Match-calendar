@@ -15,10 +15,10 @@ namespace Presenter
     public interface IPresenter
     {
         void SetModel(Model model);
-        void SetAnswer(IAnswer answer);
+        void SetAnswer(Answer answer);
 
         Model GetModel();
-        IAnswer GetAnswer();
+        Answer GetAnswer();
 
         String GetHtml(DataTable dataTable);
     }
@@ -76,7 +76,7 @@ namespace Presenter
             return sbControlHtml.ToString();
         }
 
-        public void SetAnswer(IAnswer answer)
+        public void SetAnswer(Answer answer)
         {
             an = answer;
         }
@@ -91,7 +91,7 @@ namespace Presenter
             return mod;
         }
 
-        public IAnswer GetAnswer()
+        public Answer GetAnswer()
         {
             return an;
         }

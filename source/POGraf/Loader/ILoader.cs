@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
-using System.Xml.Serialization;
-using System.Runtime.InteropServices;
-
-using Core;
+﻿using Core;
 using Log;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
+using System.Xml.Serialization;
 
 namespace Loader
 {
@@ -16,17 +14,6 @@ namespace Loader
     {
         ConfigParams Initialize(string configFile);
         Model Parse(string inputFile, string logName);
-    }
-
-    public enum Days
-    {
-        Monday,
-        Tuesday,
-        Wednesday,
-        Thursday,
-        Friday,
-        Saturday,
-        Sunday
     }
 
     //public interface IBuilder
@@ -48,7 +35,7 @@ namespace Loader
     //    {
     //        trueModel = new Model();
     //        LogGlobal.Join(Directory.GetCurrentDirectory() + "\\" + logName);
-            
+
     //    }
 
     //    public Model CreateModel(Loader.sсhedule model)
@@ -95,17 +82,6 @@ namespace Loader
     //        trueModel.r = days.Count - model.championship.reserv.Length;
     //        LogGlobal.msg(0, "Days : " + trueModel.d + " Days without reserv : " + trueModel.r);
     //    }
-
-    //    public void SetQ(Loader.sсhedule model)
-    //    {
-    //        trueModel.q = GetDaysNumbers(trueModel.gameDates).ToArray();
-    //    }
-
-    //    public void SetV(Loader.sсhedule model)
-    //    {
-    //        trueModel.v = GetPeriodWishes(model);
-    //    }
-
     //    public void SetT(Loader.sсhedule model)
     //    {
     //        trueModel.t = GetTimes(model);
@@ -168,53 +144,6 @@ namespace Loader
 
     //        return daysNumbers;
     //    }
-
-    //    public static V[][] GetPeriodWishes(Loader.sсhedule model)
-    //    {
-    //        V[][] v = new V[model.teams.Length][];
-    //        Days name;
-
-    //        for (int i = 0; i < model.teams.Length; i++)
-    //        {
-    //            if (model.teams[i].periods != null)
-    //            {
-    //                List<V> vList = new List<V>();
-    //                int num = 0;
-
-    //                for (int j = 0; j < model.teams[i].periods.Length; j++)
-    //                {
-    //                    for (name = Days.Monday; name <= Days.Sunday; name++)
-    //                    {
-    //                        if (model.teams[i].periods[j].day == Enum.GetName(typeof(Days), name))
-    //                        {
-    //                            num = (int)name;
-    //                            //break;
-    //                        }
-    //                    }
-    //                    vList.Add(new V(num, Convert.ToInt32(model.teams[i].periods[j].number)));
-    //                }
-
-    //                v[i] = vList.ToArray();
-    //            }
-    //            else
-    //            {
-    //                v[i] = new V[0];
-    //            }
-    //        }
-    //        return v;
-    //    }
-
-    //    public static int[] GetFavouriteTours(Loader.sсhedule model)
-    //    {
-    //        int[] tours = new int[model.championship.tours.Length];
-    //        for (int i = 0; i < model.championship.tours.Length; i++)
-    //        {
-    //            tours[i] = Convert.ToInt32(model.championship.tours[i]);
-    //        }
-
-    //        return tours;
-    //    }
-
     //    public static int[][] GetTimes(Loader.sсhedule model)
     //    {
     //        int[][] time = new int[model.teams.Length][];
@@ -277,7 +206,7 @@ namespace Loader
                 LogGlobal.msg(1, "Exception : " + e.Message);
                 return new ConfigParams(false);
             }
-            
+
         }
 
         public static List<DateTime> GetGameDays(Loader.sсhedule model)
@@ -299,7 +228,7 @@ namespace Loader
 
             List<DateTime> dur = duration;
 
-            for(int k = 0; k < model.championship.decrees.Length; k++)
+            for (int k = 0; k < model.championship.decrees.Length; k++)
             {
                 //Console.WriteLine("Decree " + k + " : " + model.championship.decrees[k]);
                 for (int l = 0; l < duration.Count; l++)
@@ -317,71 +246,6 @@ namespace Loader
             }
 
             return dur;
-        }
-
-        public static List<int> GetDaysNumbers(List<DateTime> days)
-        {
-            List<int> daysNumbers = new List<int>();
-            Days name;
-
-            foreach (DateTime day in days)
-            {
-                for (name = Days.Monday; name <= Days.Sunday; name++)
-                {
-                    if (day.DayOfWeek.ToString() == Enum.GetName(typeof(Days), name))
-                    {
-                        daysNumbers.Add((int)name);
-                    }
-                }
-            }
-
-            return daysNumbers;
-        }
-
-        public static V[][] GetPeriodWishes(Loader.sсhedule model)
-        { 
-            V[][] v = new V[model.teams.Length][];
-            Days name;
-
-            for (int i = 0; i < model.teams.Length; i++)
-            {
-                if (model.teams[i].periods != null)
-                {
-                    List<V> vList = new List<V>();
-                    int num = 0;
-
-                    for (int j = 0; j < model.teams[i].periods.Length; j++)
-                    {
-                        for (name = Days.Monday; name <= Days.Sunday; name++)
-                        {
-                            if (model.teams[i].periods[j].day == Enum.GetName(typeof(Days), name))
-                            {
-                                num = (int)name;
-                                //break;
-                            }
-                        }
-                        vList.Add(new V(num, Convert.ToInt32(model.teams[i].periods[j].number)));
-                    }
-
-                    v[i] = vList.ToArray();
-                }
-                else
-                {
-                    v[i] = new V[0];
-                }
-            }
-            return v;
-        }
-
-        public static int[] GetFavouriteTours(Loader.sсhedule model)
-        {
-            int[] tours = new int[model.championship.tours.Length];
-            for (int i = 0; i < model.championship.tours.Length; i++)
-            {
-                tours[i] = Convert.ToInt32(model.championship.tours[i]);
-            }
-
-            return tours;
         }
 
         public static int[][] GetTimes(Loader.sсhedule model)
@@ -425,16 +289,16 @@ namespace Loader
             LogGlobal.msg("");
             LogGlobal.msg("------------------------------------");
 
-            string xmlFile = Directory.GetCurrentDirectory()+ "\\" + inputFile;
+            string xmlFile = Directory.GetCurrentDirectory() + "\\" + inputFile;
             XmlSerializer serializer = new XmlSerializer(typeof(Loader.sсhedule));
             if (File.Exists(xmlFile) == false)
             {
                 LogGlobal.msg(1, "File : " + xmlFile + " not found");
                 Console.WriteLine("Файл {0} не найден", xmlFile);
-                Console.ReadLine();                
-                return new Model().InvalidModel();
+                Console.ReadLine();
+                return null;
             }
-            
+
             FileStream input = File.OpenRead(xmlFile);
             sсhedule model;
 
@@ -452,64 +316,18 @@ namespace Loader
                 //Console.WriteLine("serializer: {0}", e.Message);
                 //Console.WriteLine(e.GetBaseException());
                 //Console.ReadLine();
-                return new Model().InvalidModel();
+                return null;
             }
 
             mod = model;
             LogGlobal.msg(0, DateTime.Now.TimeOfDay + " Done with XML, creating model");
 
-            Model trueModel = new Model();
-            trueModel.n = model.teams.Length;
+            Model trueModel = new Model(null, 2, GetGameDays(model),null);
 
-            int leaders = 0;
-            for (int i = 0; i < model.teams.Length; i++)
-            {
-                if (model.teams[i].leader == true)
-                    leaders += 1;
-            }
-            trueModel.nl = leaders;
-            LogGlobal.msg(0, "Teams : " + trueModel.n + " Leaders : " + trueModel.nl);
+            LogGlobal.msg(0, "Teams : " + trueModel.n);
+            LogGlobal.msg(0, "Days : " + trueModel.d);
 
-            trueModel.f = Convert.ToInt32(model.stadium.minGame);
-            trueModel.g = Convert.ToInt32(model.stadium.maxGame);
-            LogGlobal.msg(0, "Min game : " + trueModel.f + " Max game : " + trueModel.g);
-
-            List<DateTime> days = GetGameDays(model);
-            trueModel.gameDates = days;
-            trueModel.d = days.Count;
-
-            trueModel.r = days.Count - model.championship.reserv.Length;
-            LogGlobal.msg(0, "Days : " + trueModel.d + " Days without reserv : " + trueModel.r);
-
-            trueModel.q = GetDaysNumbers(days).ToArray();
-            //for (int i = 0; i < trueModel.q.Length; i++)
-            //{
-            //    LogGlobal.msg(0, "q[i] = " + trueModel.q[i].ToString());
-            //}
-
-            trueModel.s = GetFavouriteTours(model);
-            //for (int i = 0; i < trueModel.s.Length; i++)
-            //{
-            //    LogGlobal.msg(0, "s[i] = " + trueModel.s[i].ToString());
-            //}
-
-            trueModel.t = GetTimes(model);
-            //for (int i = 0; i < trueModel.n; i++)
-            //{
-            //    for (int j = 0; j < trueModel.t[i].Length; j++)
-            //        LogGlobal.msg(0, "Team " + i + " Time : " + trueModel.t[i][j]);
-            //}
-
-            trueModel.v = GetPeriodWishes(model);
-
-            int[] w = new int[trueModel.q.Length];
-            for (int i = 0; i < trueModel.q.Length; i++)
-            {
-                w[i] = i;
-            }
-            trueModel.w = w;
-
-            LogGlobal.msg(0, DateTime.Now.TimeOfDay + " Model is done");                                             
+            LogGlobal.msg(0, DateTime.Now.TimeOfDay + " Model is done");
 
             return trueModel;
         }

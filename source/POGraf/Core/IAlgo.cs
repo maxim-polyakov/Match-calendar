@@ -210,7 +210,7 @@ namespace Core
         protected int iter;
         protected Algo algo;
 
-        public IterAlgo(Algo algo, int iter = 100)
+        public IterAlgo(Algo algo, int iter = 10)
         {
             model = algo.model;
             this.iter = iter;

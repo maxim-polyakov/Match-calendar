@@ -1,56 +1,51 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
-
-using Core;
+﻿using Core;
 using Log;
+using System;
+using System.IO;
 
 namespace Solver
 {
     public interface ISolver
     {
-        IAnswer Solve(Model model, ConfigParams parameters, string logName);
-        void SetModel(IModel model);
-        void SetAlgo(IAlgo algo);
+        Answer Solve(Model model, ConfigParams parameters, string logName);
+        void SetModel(Model model);
+        void SetAlgo(Algo algo);
     }
 
     public class SolverDummy : ISolver
     {
-        IModel mod;
-        IAlgo alg;
-        IAnswer an;
+        Model mod;
+        Algo alg;
+        Answer an;
 
-        public void SetAlgo(IAlgo algo)
+        public void SetAlgo(Algo algo)
         {
             alg = algo;
         }
 
-        public void SetModel(IModel model)
+        public void SetModel(Model model)
         {
             mod = model;
         }
 
-        public IAnswer Solve(Model model, ConfigParams parameters, string logName)
+        public Answer Solve(Model model, ConfigParams parameters, string logName)
         {
             LogGlobal.Join(Directory.GetCurrentDirectory() + "\\" + logName);
             LogGlobal.msg("");
             LogGlobal.msg("------------------------------------");
             LogGlobal.msg(0, DateTime.Now.TimeOfDay + " Loader finished. Solver start");
 
-            IAnswer ans = new AnswerDummy();
+            Answer ans;
             switch (parameters.algorythm)
             {
                 case "greedy":
                     {
-                        IAlgo greedy = new GreedyAlgo(model);
+                        Algo algo = new IterAlgo(new GreedyAlgo(model, 2), 2);
 
                         LogGlobal.Join(Directory.GetCurrentDirectory() + "\\" + logName);
                         LogGlobal.msg(0, DateTime.Now.TimeOfDay + " Algorythm start");
 
-                        ans = new AnswerDummy(greedy.Solve());
+                        ans = new Answer(algo.Solve(), model);
 
                         LogGlobal.msg(0, DateTime.Now.TimeOfDay + " The answer is ready");
 
@@ -58,12 +53,12 @@ namespace Solver
                     }
                 case "local":
                     {
-                        IAlgo local = new LocalAlgo(model, parameters.iterations);
+                        Algo algo = new LocalAlgo(new IterAlgo(new GreedyAlgo(model), 2), 2);
 
                         LogGlobal.Join(Directory.GetCurrentDirectory() + "\\" + logName);
                         LogGlobal.msg(0, DateTime.Now.TimeOfDay + " Algorythm start");
 
-                        ans = new AnswerDummy(local.Solve());
+                        ans = new Answer(algo.Solve(), model);
 
                         LogGlobal.msg(0, DateTime.Now.TimeOfDay + " The answer is ready");
 
@@ -71,15 +66,14 @@ namespace Solver
                     }
                 default:
                     {
+                        ans = null;
                         break;
                     }
 
             }
-
-            ans.Sort();
             return ans;
         }
 
-      
-        }
+
     }
+}
