@@ -52,7 +52,7 @@ namespace POGraf
 
             // Произвести расчет
             ISolver solver = new SolverDummy();
-            AnswerDummy ans = (AnswerDummy)solver.Solve(model, parameters, logName);
+            Answer ans = solver.Solve(model, parameters, logName);
             LogGlobal.msg(0, DateTime.Now.TimeOfDay + " The answer is received");
 
             //var a = ans.GetInfo();
