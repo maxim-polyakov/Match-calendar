@@ -67,6 +67,7 @@ namespace POGraf
             // Сформировать html-файл выходных данных
             Presenter.Presenter presenter = new Presenter.Presenter();
             presenter.ShowAnswer(model, ans, loader.mod, logName);
+            presenter.ShowAnswerEx(model, ans, loader.mod, logName);
             //_________________________________
             List<int[]> l = new List<int[]>();
             //___________________________________

@@ -18,3 +18,9 @@ C:\Users\maxim\Desktop\Match-calendar-master\source\POGraf\Log\obj\Debug\Log.csp
 C:\Users\maxim\Desktop\Match-calendar-master\source\POGraf\Log\obj\Debug\Log.csproj.CoreCompileInputs.cache
 C:\Users\maxim\Desktop\Match-calendar-master\source\POGraf\Log\obj\Debug\Log.dll
 C:\Users\maxim\Desktop\Match-calendar-master\source\POGraf\Log\obj\Debug\Log.pdb
+C:\Users\maxim\Desktop\Динамич моделирование\Match-calendar\source\POGraf\Log\bin\Debug\Log.dll
+C:\Users\maxim\Desktop\Динамич моделирование\Match-calendar\source\POGraf\Log\bin\Debug\Log.pdb
+C:\Users\maxim\Desktop\Динамич моделирование\Match-calendar\source\POGraf\Log\obj\Debug\Log.csprojAssemblyReference.cache
+C:\Users\maxim\Desktop\Динамич моделирование\Match-calendar\source\POGraf\Log\obj\Debug\Log.csproj.CoreCompileInputs.cache
+C:\Users\maxim\Desktop\Динамич моделирование\Match-calendar\source\POGraf\Log\obj\Debug\Log.dll
+C:\Users\maxim\Desktop\Динамич моделирование\Match-calendar\source\POGraf\Log\obj\Debug\Log.pdb

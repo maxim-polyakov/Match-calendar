@@ -5,6 +5,7 @@ using System.IO;
 using System.Text;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
+using Excel = Microsoft.Office.Interop.Excel;
 
 using Core;
 using Loader;
@@ -204,6 +205,78 @@ namespace Presenter
 
                 fstream.Write(input, 0, input.Length);
 
+            }
+
+        }
+
+        public void ShowAnswerEx(Model mod, Answer ans, Loader.sсhedule model, string logName)
+        {
+            LogGlobal.Join(Directory.GetCurrentDirectory() + "\\" + logName);
+            LogGlobal.msg("");
+            LogGlobal.msg("------------------------------------");
+            LogGlobal.msg(0, DateTime.Now.TimeOfDay + " Solver finished. Presenter start");
+
+            this.SetAnswer(ans);
+            this.SetModel(mod);
+
+            var dataTable = new DataTable();
+
+            int columnsNum = ans.schedule.tours; // Число туров
+                                               
+            int rowsNum = ans.schedule.games; // Число матчей в туре
+
+
+            Excel.Application ObjExcel = new Excel.Application();
+            Excel.Workbook ObjWorkBook;
+            Excel.Worksheet ObjWorkSheet;
+            ObjWorkBook = ObjExcel.Workbooks.Add(System.Reflection.Missing.Value);
+            ObjWorkBook = ObjExcel.Workbooks.Add(AppDomain.CurrentDomain.BaseDirectory);
+            ObjWorkSheet = (Excel.Worksheet)ObjWorkBook.Sheets[1];
+          
+           
+
+            for (int j = 0; j < rowsNum; j++)
+            {
+                var row = dataTable.NewRow();
+
+                //Соперник 1
+                for (int i = 0; i < columnsNum; i += 4)
+                {
+                    if (ans[i / 4, j].teams != null)
+                        ObjWorkSheet.Cells[j,i.ToString()] = ans[i / 4, j].teams[0];
+                    else
+                        ObjWorkSheet.Cells[j,i.ToString()] = "";
+                }
+
+                //Соперник 2
+                for (int i = 1; i < columnsNum; i += 4)
+                {
+                    if (ans[i / 4, j].teams != null)
+                        ObjWorkSheet.Cells[j,i.ToString()] = ans[i / 4, j].teams[1];
+                    else
+                        ObjWorkSheet.Cells[j,i.ToString()] = "";
+                }
+
+                //Дата матча
+                for (int i = 2; i < columnsNum; i += 4)
+                {
+                    if (ans[(i - 2) / 4, j].DateTime.HasValue)
+                        ObjWorkSheet.Cells[j,i.ToString()] = ((DateTime)ans[(i - 2) / 4, j].DateTime).ToShortDateString().ToString();
+                    else
+                        ObjWorkSheet.Cells[j,i.ToString()] = "";
+                }
+
+                //Время матча
+                for (int i = 3; i < columnsNum; i += 4)
+                {
+                    if (ans[(i - 3) / 4, j].DateTime.HasValue)
+                        ObjWorkSheet.Cells[j,i.ToString()] = model.stadium.time[(int)ans.schedule.z[(i - 3) / 4, j]];
+                    else
+                        ObjWorkSheet.Cells[j,i.ToString()] = "";
+                }
+                //если выводится фигня убрать 2ую индексацию
+                ObjExcel.Visible = true;
+                ObjExcel.UserControl = true;
             }
 
         }
