@@ -154,8 +154,7 @@ namespace Core
             }
             while ((firstFreeTour < t) || (currGames.Count > 0));
 
-            if (currGames.Count == 0)
-                sch.filled = true;
+            sch.filled = currGames.Count == 0;
 
             return sch;
         }
@@ -210,22 +209,30 @@ namespace Core
         protected int iter;
         protected Algo algo;
 
-        public IterAlgo(Algo algo, int iter = 10)
+        public IterAlgo(Algo algo, int par = 25)
         {
             model = algo.model;
-            this.iter = iter;
+            this.iter = par;
             this.algo = algo;
         }
 
         public override Schedule Solve(Schedule schedule = null)
         {
-            Schedule bestFilledSchedule = null;
-            int bestFilledCrit = int.MaxValue;
-            Schedule bestNotFilledSchedule = null;
-            int bestNotFilledCrit = int.MaxValue;
+            Schedule bestSchedule = null;
+            int bestCrit = int.MaxValue;
+            Random random = new Random();
             for (int i = 0; i < iter; i++)
             {
+                List<int[]> temp = new List<int[]>();
+                for (int j = 0; j < algo.model.wishes.Count; j++)
+                    if ((algo.model.wishes[j] is NeedHelp) && (algo.model.wishes[j].importancePercent < 100) && (random.Next(2) == 1))
+                    {
+                        temp.Add(new int[] { j, algo.model.wishes[j].importancePercent });
+                        algo.model.wishes[j].importancePercent = 100;
+                    }
                 Schedule sch = algo.Solve(schedule);
+                for (int j = 0; j < temp.Count; j++)
+                    algo.model.wishes[temp[j][0]].importancePercent = temp[j][1];
                 int[] crit = new int[model.criteria.Count];
                 int sumCrit = 0;
                 for (int j = 0; j < crit.Length; j++)
@@ -234,26 +241,14 @@ namespace Core
                     sumCrit += crit[j] * model.criteria[j].importancePercent;
                 }
                 sumCrit = (sumCrit + 100 - 1) / 100;
-                if (sch.filled)
+                if (sumCrit < bestCrit)
                 {
-                    if (sumCrit < bestFilledCrit)
-                    {
-                        bestFilledSchedule = sch;
-                        bestFilledCrit = sumCrit;
-                        i = 0;
-                    }
-                }
-                else if (sumCrit < bestNotFilledCrit)
-                {
-                    bestNotFilledSchedule = sch;
-                    bestNotFilledCrit = sumCrit;
+                    bestSchedule = sch;
+                    bestCrit = sumCrit;
                     i = 0;
                 }
             }
-            if (bestFilledSchedule != null)
-                return bestFilledSchedule;
-            else
-                return bestNotFilledSchedule;
+            return bestSchedule;
         }
     }
 
@@ -262,11 +257,11 @@ namespace Core
         protected Algo algo;
         int iter;
 
-        public LocalAlgo(Algo algo, int iter = 10)
+        public LocalAlgo(Algo algo, int par = 5)
         {
             model = algo.model;
             this.algo = algo;
-            this.iter = iter;
+            this.iter = par;
         }
 
         public override Schedule Solve(Schedule schedule = null)
@@ -274,12 +269,12 @@ namespace Core
             if (schedule == null)
                 schedule = new Schedule(model.n, model.r, model.r * (model.n - 1 + model.n % 2), model.n / 2 + model.n % 2);
             Schedule currentSchedule = schedule;
+            int currentCrit = int.MaxValue;
             Schedule nextSchedule;
             Random random = new Random();
             for (int i = 0; i < iter; i++)
             {
                 List<int[]> suitable = new List<int[]>();
-                int numNotSuitable = 0;
                 nextSchedule = new Schedule(currentSchedule);
                 for (int tour = 0; tour < currentSchedule.tours; tour++)
                     for (int gameInTour = 0; gameInTour < currentSchedule.games; gameInTour++)
@@ -293,7 +288,6 @@ namespace Core
                                         currentSchedule.y[tour, gameInTour] = nextSchedule.y[tour, gameInTour];
                                         currentSchedule.z[tour, gameInTour] = nextSchedule.z[tour, gameInTour];
                                         nextSchedule.y[tour, gameInTour] = nextSchedule.z[tour, gameInTour] = null;
-                                        numNotSuitable++;
                                         break;
                                     }
                                     else
@@ -303,13 +297,27 @@ namespace Core
                                         currentSchedule.z[tour, gameInTour] = nextSchedule.z[tour, gameInTour];
                                     }
                                 }
-                for (int j = 0; (j < numNotSuitable) && (suitable.Count > 0); j++)
+                for (int j = 0; (j < i) && (suitable.Count > 0); j++)
                 {
                     int a = random.Next(suitable.Count);
                     nextSchedule.y[suitable[a][0], suitable[a][1]] = nextSchedule.z[suitable[a][0], suitable[a][1]] = null;
                     suitable.RemoveAt(a);
                 }
-                currentSchedule = algo.Solve(nextSchedule);
+                Schedule newSchedule = algo.Solve(nextSchedule);
+                int[] crit = new int[model.criteria.Count];
+                int sumCrit = 0;
+                for (int j = 0; j < crit.Length; j++)
+                {
+                    crit[j] = model.criteria[j].Value(newSchedule);
+                    sumCrit += crit[j] * model.criteria[j].importancePercent;
+                }
+                sumCrit = (sumCrit + 100 - 1) / 100;
+                if (sumCrit < currentCrit)
+                {
+                    currentSchedule = newSchedule;
+                    currentCrit = sumCrit;
+                    i = 0;
+                }
             }
             return currentSchedule;
         }

@@ -49,6 +49,7 @@ namespace Core
         }
 
         public abstract bool IsSuitable(int day, int slot, int tour, int gameInTour, Schedule schedule, Model model);
+        public abstract int numErrors(Schedule schedule, Model model);
     }
     public abstract class TeamWish : Wish
     {
@@ -65,15 +66,11 @@ namespace Core
         {
         }
     }
-    public abstract class WithNumErrorsWish : Wish
+    public interface NeedHelp
     {
-        public WithNumErrorsWish(int importancePercent) : base(importancePercent)
-        {
-        }
-        public abstract int numErrors(Schedule schedule, Model model);
     }
 
-    public class ToursInOrder : WithNumErrorsWish
+    public class ToursInOrder : Wish, NeedHelp
     {
         public ToursInOrder(int importancePercent) : base(importancePercent)
         {
@@ -83,10 +80,10 @@ namespace Core
         {
             int a = day * model.s + slot;
             int b = model.d * model.s * tour / schedule.tours;
-            int c = model.d * model.s * (tour + 1) / schedule.tours;
+            int c = model.d * model.s * (tour + 1) / schedule.tours - 1;
             if (tour > 0)
             {
-                int max = 0;
+                int max = -1;
                 int i;
                 for (i = 0; i < schedule.games; i++)
                     if ((schedule.y[tour - 1, i].HasValue) && (schedule.z[tour - 1, i].HasValue))
@@ -95,10 +92,8 @@ namespace Core
                         if (d > max)
                             max = d;
                     }
-                    else
-                        break;
-                if ((i == schedule.games) && (max < b))
-                    b = max;
+                if (max > -1)
+                    b = (int)max;
             }
             if (tour < schedule.tours - 1)
             {
@@ -111,12 +106,10 @@ namespace Core
                         if (d < min)
                             min = d;
                     }
-                    else
-                        break;
-                if ((i == schedule.games) && (min > c))
+                if (min < int.MaxValue)
                     c = min;
             }
-            return ((a >= b) && (a < c));
+            return ((a >= b) && (a <= c));
         }
 
         public override int numErrors(Schedule schedule, Model model)
@@ -183,8 +176,29 @@ namespace Core
                     return wish;
             return !wish;
         }
+
+        public override int numErrors(Schedule schedule, Model model)
+        {
+            int sum = 0;
+            for (int j = 0; j < schedule.tours; j++)
+                for (int k = 0; k < schedule.games; k++)
+                {
+                    if (schedule.y[j, k].HasValue)
+                    {
+                        int[] temp = new int[] { (int)schedule.y[j, k], (int)schedule.z[j, k] };
+                        schedule.y[j, k] = schedule.z[j, k] = null;
+                        if (!IsSuitable(temp[0], temp[1], j, k, schedule, model))
+                            sum++;
+                        schedule.y[j, k] = temp[0];
+                        schedule.z[j, k] = temp[1];
+                    }
+                    else
+                        sum++;
+                }
+            return sum;
+        }
     }
-    public class MaxGamesPerWeek : WithNumErrorsWish
+    public class MaxGamesPerWeek : Wish
     {
         int num;
         public MaxGamesPerWeek(int importancePercent, int num) : base(importancePercent)
@@ -279,6 +293,26 @@ namespace Core
                 }
             return (sum < num);
         }
+        public override int numErrors(Schedule schedule, Model model)
+        {
+            int sum = 0;
+            for (int j = 0; j < schedule.tours; j++)
+                for (int k = 0; k < schedule.games; k++)
+                {
+                    if (schedule.y[j, k].HasValue)
+                    {
+                        int[] temp = new int[] { (int)schedule.y[j, k], (int)schedule.z[j, k] };
+                        schedule.y[j, k] = schedule.z[j, k] = null;
+                        if (!IsSuitable(temp[0], temp[1], j, k, schedule, model))
+                            sum++;
+                        schedule.y[j, k] = temp[0];
+                        schedule.z[j, k] = temp[1];
+                    }
+                    else
+                        sum++;
+                }
+            return sum;
+        }
     }
     public class LeadersWish : RivalsWish
     {
@@ -307,6 +341,26 @@ namespace Core
                     return true;
             return false;
         }
+        public override int numErrors(Schedule schedule, Model model)
+        {
+            int sum = 0;
+            for (int j = 0; j < schedule.tours; j++)
+                for (int k = 0; k < schedule.games; k++)
+                {
+                    if (schedule.y[j, k].HasValue)
+                    {
+                        int[] temp = new int[] { (int)schedule.y[j, k], (int)schedule.z[j, k] };
+                        schedule.y[j, k] = schedule.z[j, k] = null;
+                        if (!IsSuitable(temp[0], temp[1], j, k, schedule, model))
+                            sum++;
+                        schedule.y[j, k] = temp[0];
+                        schedule.z[j, k] = temp[1];
+                    }
+                    else
+                        sum++;
+                }
+            return sum;
+        }
     }
     public class MaxGamesPerHour : Wish
     {
@@ -325,6 +379,26 @@ namespace Core
                         sum++;
             return (sum < num);
         }
+        public override int numErrors(Schedule schedule, Model model)
+        {
+            int sum = 0;
+            for (int j = 0; j < schedule.tours; j++)
+                for (int k = 0; k < schedule.games; k++)
+                {
+                    if (schedule.y[j, k].HasValue)
+                    {
+                        int[] temp = new int[] { (int)schedule.y[j, k], (int)schedule.z[j, k] };
+                        schedule.y[j, k] = schedule.z[j, k] = null;
+                        if (!IsSuitable(temp[0], temp[1], j, k, schedule, model))
+                            sum++;
+                        schedule.y[j, k] = temp[0];
+                        schedule.z[j, k] = temp[1];
+                    }
+                    else
+                        sum++;
+                }
+            return sum;
+        }
     }
     public class Evenly : Wish
     {
@@ -338,6 +412,26 @@ namespace Core
                 return true;
             else
                 return false;
+        }
+        public override int numErrors(Schedule schedule, Model model)
+        {
+            int sum = 0;
+            for (int j = 0; j < schedule.tours; j++)
+                for (int k = 0; k < schedule.games; k++)
+                {
+                    if (schedule.y[j, k].HasValue)
+                    {
+                        int[] temp = new int[] { (int)schedule.y[j, k], (int)schedule.z[j, k] };
+                        schedule.y[j, k] = schedule.z[j, k] = null;
+                        if (!IsSuitable(temp[0], temp[1], j, k, schedule, model))
+                            sum++;
+                        schedule.y[j, k] = temp[0];
+                        schedule.z[j, k] = temp[1];
+                    }
+                    else
+                        sum++;
+                }
+            return sum;
         }
     }
     public class MinMaxGamesPerDay : Wish
@@ -392,6 +486,26 @@ namespace Core
                     return false;
             }
         }
+        public override int numErrors(Schedule schedule, Model model)
+        {
+            int sum = 0;
+            for (int j = 0; j < schedule.tours; j++)
+                for (int k = 0; k < schedule.games; k++)
+                {
+                    if (schedule.y[j, k].HasValue)
+                    {
+                        int[] temp = new int[] { (int)schedule.y[j, k], (int)schedule.z[j, k] };
+                        schedule.y[j, k] = schedule.z[j, k] = null;
+                        if (!IsSuitable(temp[0], temp[1], j, k, schedule, model))
+                            sum++;
+                        schedule.y[j, k] = temp[0];
+                        schedule.z[j, k] = temp[1];
+                    }
+                    else
+                        sum++;
+                }
+            return sum;
+        }
     }
     public class DayTeamWish : TeamWish
     {
@@ -420,6 +534,26 @@ namespace Core
             else
                 return true;
         }
+        public override int numErrors(Schedule schedule, Model model)
+        {
+            int sum = 0;
+            for (int j = 0; j < schedule.tours; j++)
+                for (int k = 0; k < schedule.games; k++)
+                {
+                    if (schedule.y[j, k].HasValue)
+                    {
+                        int[] temp = new int[] { (int)schedule.y[j, k], (int)schedule.z[j, k] };
+                        schedule.y[j, k] = schedule.z[j, k] = null;
+                        if (!IsSuitable(temp[0], temp[1], j, k, schedule, model))
+                            sum++;
+                        schedule.y[j, k] = temp[0];
+                        schedule.z[j, k] = temp[1];
+                    }
+                    else
+                        sum++;
+                }
+            return sum;
+        }
     }
     public class DayOfWeekTeamWish : TeamWish
     {
@@ -441,6 +575,26 @@ namespace Core
             }
             else
                 return true;
+        }
+        public override int numErrors(Schedule schedule, Model model)
+        {
+            int sum = 0;
+            for (int j = 0; j < schedule.tours; j++)
+                for (int k = 0; k < schedule.games; k++)
+                {
+                    if (schedule.y[j, k].HasValue)
+                    {
+                        int[] temp = new int[] { (int)schedule.y[j, k], (int)schedule.z[j, k] };
+                        schedule.y[j, k] = schedule.z[j, k] = null;
+                        if (!IsSuitable(temp[0], temp[1], j, k, schedule, model))
+                            sum++;
+                        schedule.y[j, k] = temp[0];
+                        schedule.z[j, k] = temp[1];
+                    }
+                    else
+                        sum++;
+                }
+            return sum;
         }
     }
     public class TimeSlotTeamWish : TeamWish
@@ -469,6 +623,26 @@ namespace Core
             }
             else
                 return true;
+        }
+        public override int numErrors(Schedule schedule, Model model)
+        {
+            int sum = 0;
+            for (int j = 0; j < schedule.tours; j++)
+                for (int k = 0; k < schedule.games; k++)
+                {
+                    if (schedule.y[j, k].HasValue)
+                    {
+                        int[] temp = new int[] { (int)schedule.y[j, k], (int)schedule.z[j, k] };
+                        schedule.y[j, k] = schedule.z[j, k] = null;
+                        if (!IsSuitable(temp[0], temp[1], j, k, schedule, model))
+                            sum++;
+                        schedule.y[j, k] = temp[0];
+                        schedule.z[j, k] = temp[1];
+                    }
+                    else
+                        sum++;
+                }
+            return sum;
         }
     }
     public class DayTimeSlotTeamWish : TeamWish
@@ -501,6 +675,26 @@ namespace Core
             else
                 return true;
         }
+        public override int numErrors(Schedule schedule, Model model)
+        {
+            int sum = 0;
+            for (int j = 0; j < schedule.tours; j++)
+                for (int k = 0; k < schedule.games; k++)
+                {
+                    if (schedule.y[j, k].HasValue)
+                    {
+                        int[] temp = new int[] { (int)schedule.y[j, k], (int)schedule.z[j, k] };
+                        schedule.y[j, k] = schedule.z[j, k] = null;
+                        if (!IsSuitable(temp[0], temp[1], j, k, schedule, model))
+                            sum++;
+                        schedule.y[j, k] = temp[0];
+                        schedule.z[j, k] = temp[1];
+                    }
+                    else
+                        sum++;
+                }
+            return sum;
+        }
     }
 
     public abstract class Criterion
@@ -524,35 +718,8 @@ namespace Core
             Schedule sch = new Schedule(schedule);
             int value = 0;
             for (int i = 0; i < model.wishes.Count; i++)
-            {
                 if ((model.wishes[i].importancePercent < 100) && (!(model.wishes[i] is TeamWish)))
-                {
-                    int numErrors;
-                    if (model.wishes[i] is WithNumErrorsWish)
-                        numErrors = ((WithNumErrorsWish)model.wishes[i]).numErrors(sch, model);
-                    else
-                    {
-                        int numNotSuitable = 0;
-                        for (int j = 0; j < schedule.tours; j++)
-                            for (int k = 0; k < schedule.games; k++)
-                            {
-                                if (schedule.y[j, k].HasValue)
-                                {
-                                    sch.y[j, k] = sch.z[j, k] = null;
-                                    if (!model.wishes[i].IsSuitable((int)schedule.y[j, k], (int)schedule.z[j, k], j, k, sch, model))
-                                        numNotSuitable++;
-                                    sch.y[j, k] = schedule.y[j, k];
-                                    sch.z[j, k] = schedule.z[j, k];
-                                }
-                                else
-                                    numNotSuitable++;
-                            }
-                        numErrors = numNotSuitable;
-
-                    }
-                    value += model.wishes[i].importancePercent * numErrors;
-                }
-            }
+                    value += model.wishes[i].importancePercent * model.wishes[i].numErrors(sch, model);
             value = (value + 99 - 1) / 99;
             return value;
         }
@@ -572,22 +739,7 @@ namespace Core
             {
                 if ((model.wishes[i].importancePercent < 100) && (model.wishes[i] is TeamWish))
                 {
-                    int numNotSuitable = 0;
-                    for (int j = 0; j < schedule.tours; j++)
-                        for (int k = 0; k < schedule.games; k++)
-                        {
-                            if (schedule.y[j, k].HasValue)
-                            {
-                                sch.y[j, k] = sch.z[j, k] = null;
-                                if (!model.wishes[i].IsSuitable((int)schedule.y[j, k], (int)schedule.z[j, k], j, k, sch, model))
-                                    numNotSuitable++;
-                                sch.y[j, k] = schedule.y[j, k];
-                                sch.z[j, k] = schedule.z[j, k];
-                            }
-                            else
-                                numNotSuitable++;
-                        }
-                    cfFailsTeams[((TeamWish)(model.wishes[i])).team] += model.wishes[i].importancePercent * numNotSuitable;
+                    cfFailsTeams[((TeamWish)(model.wishes[i])).team] += model.wishes[i].importancePercent * model.wishes[i].numErrors(sch, model);
                     numWishesTeam[((TeamWish)(model.wishes[i])).team] += 1;
                 }
             }
