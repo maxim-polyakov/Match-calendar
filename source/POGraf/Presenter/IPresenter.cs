@@ -218,11 +218,11 @@ namespace Presenter
 
             this.SetAnswer(ans);
             this.SetModel(mod);
-
+            Core.Schedule Model = new Core.Schedule(ans.schedule);
             var dataTable = new DataTable();
 
             int columnsNum = ans.schedule.tours; // Число туров
-                                               
+
             int rowsNum = ans.schedule.games; // Число матчей в туре
 
 
@@ -232,53 +232,132 @@ namespace Presenter
             ObjWorkBook = ObjExcel.Workbooks.Add(System.Reflection.Missing.Value);
             ObjWorkBook = ObjExcel.Workbooks.Add(AppDomain.CurrentDomain.BaseDirectory);
             ObjWorkSheet = (Excel.Worksheet)ObjWorkBook.Sheets[1];
-          
-           
+
+
 
             for (int j = 0; j < rowsNum; j++)
             {
                 var row = dataTable.NewRow();
 
                 //Соперник 1
+                int k = 0;
                 for (int i = 0; i < columnsNum; i += 4)
                 {
-                    if (ans[i / 4, j].teams != null)
-                        ObjWorkSheet.Cells[j,i.ToString()] = ans[i / 4, j].teams[0];
-                    else
-                        ObjWorkSheet.Cells[j,i.ToString()] = "";
-                }
 
+                    if (mod.wishes[k].IsSuitable((int)ans.schedule.y[i, j], (int)ans.schedule.z[i, j], (int)ans.schedule.x[i, j, k], Model.games, Model, mod) && (k < mod.wishes.Count))
+                    {
+                        if (ans[i / 4, j].teams != null)
+                        {
+                            ObjWorkSheet.Cells[j, i.ToString()] = ans[i / 4, j].teams[0];
+                            ObjWorkSheet.get_Range(j, i).Font.Color = Excel.XlRgbColor.rgbGreen;
+                        }
+                        else
+                            ObjWorkSheet.Cells[j, i.ToString()] = "";
+
+                        k++;
+
+
+                    }
+                    else
+                    {
+
+                        if (ans[i / 4, j].teams != null)
+                            ObjWorkSheet.Cells[j, i.ToString()] = ans[i / 4, j].teams[0];
+                        else
+                            ObjWorkSheet.Cells[j, i.ToString()] = "";
+
+
+                        k++;
+                    }
+                }
                 //Соперник 2
                 for (int i = 1; i < columnsNum; i += 4)
                 {
-                    if (ans[i / 4, j].teams != null)
-                        ObjWorkSheet.Cells[j,i.ToString()] = ans[i / 4, j].teams[1];
+
+                    if (mod.wishes[k].IsSuitable((int)ans.schedule.y[i, j], (int)ans.schedule.z[i, j], (int)ans.schedule.x[i, j, k], Model.games, Model, mod)&&(k<mod.wishes.Count))
+                    {
+                        if (ans[i / 4, j].teams != null)
+                        {
+                            ObjWorkSheet.Cells[j, i.ToString()] = ans[i / 4, j].teams[1];
+                            ObjWorkSheet.get_Range(j, i).Font.Color = Excel.XlRgbColor.rgbGreen;
+                        }
+                        else
+                            ObjWorkSheet.Cells[j, i.ToString()] = "";
+                        k++;
+                    }
                     else
-                        ObjWorkSheet.Cells[j,i.ToString()] = "";
+                    {
+
+                        if (ans[i / 4, j].teams != null)
+                        {
+                            ObjWorkSheet.Cells[j, i.ToString()] = ans[i / 4, j].teams[1];
+                        }
+                        else
+
+                            ObjWorkSheet.Cells[j, i.ToString()] = "";
+                        k++;
+                    }
                 }
+
 
                 //Дата матча
                 for (int i = 2; i < columnsNum; i += 4)
                 {
-                    if (ans[(i - 2) / 4, j].DateTime.HasValue)
-                        ObjWorkSheet.Cells[j,i.ToString()] = ((DateTime)ans[(i - 2) / 4, j].DateTime).ToShortDateString().ToString();
+                    if (mod.wishes[k].IsSuitable((int)ans.schedule.y[i, j], (int)ans.schedule.z[i, j], (int)ans.schedule.x[i, j, k], Model.games, Model, mod) && (k < mod.wishes.Count))
+                    {
+                        if (ans[(i - 2) / 4, j].DateTime.HasValue)
+                        {
+                            ObjWorkSheet.Cells[j, i.ToString()] = ((DateTime)ans[(i - 2) / 4, j].DateTime).ToShortDateString().ToString();
+                            ObjWorkSheet.get_Range(j, i).Font.Color = Excel.XlRgbColor.rgbGreen;
+                        }
+                        else
+                            ObjWorkSheet.Cells[j, i.ToString()] = "";
+                        k++;
+                    }
                     else
-                        ObjWorkSheet.Cells[j,i.ToString()] = "";
+                    {
+                        if (ans[i / 4, j].teams != null)
+                        {
+                            ObjWorkSheet.Cells[j, i.ToString()] = ans[i / 4, j].teams[1];
+                        }
+                        else
+
+                            ObjWorkSheet.Cells[j, i.ToString()] = "";
+                        k++;
+                    }
                 }
 
                 //Время матча
                 for (int i = 3; i < columnsNum; i += 4)
                 {
-                    if (ans[(i - 3) / 4, j].DateTime.HasValue)
-                        ObjWorkSheet.Cells[j,i.ToString()] = model.stadium.time[(int)ans.schedule.z[(i - 3) / 4, j]];
+                    if (mod.wishes[k].IsSuitable((int)ans.schedule.y[i, j], (int)ans.schedule.z[i, j], (int)ans.schedule.x[i, j, k], Model.games, Model, mod) && (k < mod.wishes.Count))
+                    {
+                        if (ans[(i - 3) / 4, j].DateTime.HasValue)
+                        {
+                            ObjWorkSheet.Cells[j, i.ToString()] = model.stadium.time[(int)ans.schedule.z[(i - 3) / 4, j]];
+                            ObjWorkSheet.get_Range(j, i).Font.Color = Excel.XlRgbColor.rgbGreen;
+                        }
+                        else
+                            ObjWorkSheet.Cells[j, i.ToString()] = "";
+                        k++;
+                    }
                     else
-                        ObjWorkSheet.Cells[j,i.ToString()] = "";
+                    {
+                        if (ans[i / 4, j].teams != null)
+                        {
+                            ObjWorkSheet.Cells[j, i.ToString()] = ans[i / 4, j].teams[1];
+                        }
+                        else
+
+                            ObjWorkSheet.Cells[j, i.ToString()] = "";
+                        k++;
+                    }
                 }
                 //если выводится фигня убрать 2ую индексацию
                 ObjExcel.Visible = true;
                 ObjExcel.UserControl = true;
             }
-
+        }
         }
     }
-}
+
