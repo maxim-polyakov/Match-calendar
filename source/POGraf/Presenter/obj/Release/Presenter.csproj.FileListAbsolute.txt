@@ -1,0 +1,26 @@
+C:\Users\maxim\Desktop\Динамич моделирование\Match-calendar\source\POGraf\Presenter\bin\Release\Presenter.dll
+C:\Users\maxim\Desktop\Динамич моделирование\Match-calendar\source\POGraf\Presenter\bin\Release\Presenter.pdb
+C:\Users\maxim\Desktop\Динамич моделирование\Match-calendar\source\POGraf\Presenter\bin\Release\Core.dll
+C:\Users\maxim\Desktop\Динамич моделирование\Match-calendar\source\POGraf\Presenter\bin\Release\Loader.dll
+C:\Users\maxim\Desktop\Динамич моделирование\Match-calendar\source\POGraf\Presenter\bin\Release\Log.dll
+C:\Users\maxim\Desktop\Динамич моделирование\Match-calendar\source\POGraf\Presenter\bin\Release\Core.pdb
+C:\Users\maxim\Desktop\Динамич моделирование\Match-calendar\source\POGraf\Presenter\bin\Release\Loader.pdb
+C:\Users\maxim\Desktop\Динамич моделирование\Match-calendar\source\POGraf\Presenter\bin\Release\Log.pdb
+C:\Users\maxim\Desktop\Динамич моделирование\Match-calendar\source\POGraf\Presenter\obj\Release\Presenter.csprojAssemblyReference.cache
+C:\Users\maxim\Desktop\Динамич моделирование\Match-calendar\source\POGraf\Presenter\obj\Release\Presenter.csproj.CoreCompileInputs.cache
+C:\Users\maxim\Desktop\Динамич моделирование\Match-calendar\source\POGraf\Presenter\obj\Release\Presenter.csproj.CopyComplete
+C:\Users\maxim\Desktop\Динамич моделирование\Match-calendar\source\POGraf\Presenter\obj\Release\Presenter.dll
+C:\Users\maxim\Desktop\Динамич моделирование\Match-calendar\source\POGraf\Presenter\obj\Release\Presenter.pdb
+C:\Users\maxim\Desktop\DM\Match-calendar\source\POGraf\Presenter\bin\Release\Presenter.dll
+C:\Users\maxim\Desktop\DM\Match-calendar\source\POGraf\Presenter\bin\Release\Presenter.pdb
+C:\Users\maxim\Desktop\DM\Match-calendar\source\POGraf\Presenter\bin\Release\Core.dll
+C:\Users\maxim\Desktop\DM\Match-calendar\source\POGraf\Presenter\bin\Release\Loader.dll
+C:\Users\maxim\Desktop\DM\Match-calendar\source\POGraf\Presenter\bin\Release\Log.dll
+C:\Users\maxim\Desktop\DM\Match-calendar\source\POGraf\Presenter\bin\Release\Core.pdb
+C:\Users\maxim\Desktop\DM\Match-calendar\source\POGraf\Presenter\bin\Release\Loader.pdb
+C:\Users\maxim\Desktop\DM\Match-calendar\source\POGraf\Presenter\bin\Release\Log.pdb
+C:\Users\maxim\Desktop\DM\Match-calendar\source\POGraf\Presenter\obj\Release\Presenter.csprojAssemblyReference.cache
+C:\Users\maxim\Desktop\DM\Match-calendar\source\POGraf\Presenter\obj\Release\Presenter.csproj.CoreCompileInputs.cache
+C:\Users\maxim\Desktop\DM\Match-calendar\source\POGraf\Presenter\obj\Release\Presenter.csproj.CopyComplete
+C:\Users\maxim\Desktop\DM\Match-calendar\source\POGraf\Presenter\obj\Release\Presenter.dll
+C:\Users\maxim\Desktop\DM\Match-calendar\source\POGraf\Presenter\obj\Release\Presenter.pdb

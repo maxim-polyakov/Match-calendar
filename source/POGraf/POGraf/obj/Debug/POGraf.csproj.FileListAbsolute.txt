@@ -128,3 +128,26 @@ C:\Users\maxim\Desktop\Динамич моделирование\Match-calendar\
 C:\Users\maxim\Desktop\Динамич моделирование\Match-calendar\source\POGraf\POGraf\obj\Debug\POGraf.csprojAssemblyReference.cache
 C:\Users\maxim\Desktop\Динамич моделирование\Match-calendar\source\POGraf\POGraf\obj\Debug\POGraf.csproj.CoreCompileInputs.cache
 C:\Users\maxim\Desktop\Динамич моделирование\Match-calendar\source\POGraf\POGraf\obj\Debug\POGraf.csproj.CopyComplete
+C:\Users\maxim\Desktop\DM\Match-calendar\source\POGraf\POGraf\bin\Debug\POGraf.exe.config
+C:\Users\maxim\Desktop\DM\Match-calendar\source\POGraf\POGraf\bin\Debug\POGraf.exe
+C:\Users\maxim\Desktop\DM\Match-calendar\source\POGraf\POGraf\bin\Debug\POGraf.pdb
+C:\Users\maxim\Desktop\DM\Match-calendar\source\POGraf\POGraf\bin\Debug\Core.dll
+C:\Users\maxim\Desktop\DM\Match-calendar\source\POGraf\POGraf\bin\Debug\Loader.dll
+C:\Users\maxim\Desktop\DM\Match-calendar\source\POGraf\POGraf\bin\Debug\Log.dll
+C:\Users\maxim\Desktop\DM\Match-calendar\source\POGraf\POGraf\bin\Debug\Presenter.dll
+C:\Users\maxim\Desktop\DM\Match-calendar\source\POGraf\POGraf\bin\Debug\Solver.dll
+C:\Users\maxim\Desktop\DM\Match-calendar\source\POGraf\POGraf\bin\Debug\Core.pdb
+C:\Users\maxim\Desktop\DM\Match-calendar\source\POGraf\POGraf\bin\Debug\Core.exe.config
+C:\Users\maxim\Desktop\DM\Match-calendar\source\POGraf\POGraf\bin\Debug\Loader.pdb
+C:\Users\maxim\Desktop\DM\Match-calendar\source\POGraf\POGraf\bin\Debug\Loader.exe.config
+C:\Users\maxim\Desktop\DM\Match-calendar\source\POGraf\POGraf\bin\Debug\Log.pdb
+C:\Users\maxim\Desktop\DM\Match-calendar\source\POGraf\POGraf\bin\Debug\Log.exe.config
+C:\Users\maxim\Desktop\DM\Match-calendar\source\POGraf\POGraf\bin\Debug\Presenter.pdb
+C:\Users\maxim\Desktop\DM\Match-calendar\source\POGraf\POGraf\bin\Debug\Presenter.exe.config
+C:\Users\maxim\Desktop\DM\Match-calendar\source\POGraf\POGraf\bin\Debug\Solver.pdb
+C:\Users\maxim\Desktop\DM\Match-calendar\source\POGraf\POGraf\bin\Debug\Solver.exe.config
+C:\Users\maxim\Desktop\DM\Match-calendar\source\POGraf\POGraf\obj\Debug\POGraf.csprojAssemblyReference.cache
+C:\Users\maxim\Desktop\DM\Match-calendar\source\POGraf\POGraf\obj\Debug\POGraf.csproj.CoreCompileInputs.cache
+C:\Users\maxim\Desktop\DM\Match-calendar\source\POGraf\POGraf\obj\Debug\POGraf.csproj.CopyComplete
+C:\Users\maxim\Desktop\DM\Match-calendar\source\POGraf\POGraf\obj\Debug\POGraf.exe
+C:\Users\maxim\Desktop\DM\Match-calendar\source\POGraf\POGraf\obj\Debug\POGraf.pdb

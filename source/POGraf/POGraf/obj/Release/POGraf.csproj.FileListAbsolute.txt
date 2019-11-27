@@ -1,0 +1,36 @@
+C:\Users\maxim\Desktop\Динамич моделирование\Match-calendar\source\POGraf\POGraf\bin\Release\POGraf.exe.config
+C:\Users\maxim\Desktop\Динамич моделирование\Match-calendar\source\POGraf\POGraf\bin\Release\POGraf.exe
+C:\Users\maxim\Desktop\Динамич моделирование\Match-calendar\source\POGraf\POGraf\bin\Release\POGraf.pdb
+C:\Users\maxim\Desktop\Динамич моделирование\Match-calendar\source\POGraf\POGraf\bin\Release\Core.dll
+C:\Users\maxim\Desktop\Динамич моделирование\Match-calendar\source\POGraf\POGraf\bin\Release\Loader.dll
+C:\Users\maxim\Desktop\Динамич моделирование\Match-calendar\source\POGraf\POGraf\bin\Release\Log.dll
+C:\Users\maxim\Desktop\Динамич моделирование\Match-calendar\source\POGraf\POGraf\bin\Release\Presenter.dll
+C:\Users\maxim\Desktop\Динамич моделирование\Match-calendar\source\POGraf\POGraf\bin\Release\Solver.dll
+C:\Users\maxim\Desktop\Динамич моделирование\Match-calendar\source\POGraf\POGraf\bin\Release\Core.pdb
+C:\Users\maxim\Desktop\Динамич моделирование\Match-calendar\source\POGraf\POGraf\bin\Release\Loader.pdb
+C:\Users\maxim\Desktop\Динамич моделирование\Match-calendar\source\POGraf\POGraf\bin\Release\Log.pdb
+C:\Users\maxim\Desktop\Динамич моделирование\Match-calendar\source\POGraf\POGraf\bin\Release\Presenter.pdb
+C:\Users\maxim\Desktop\Динамич моделирование\Match-calendar\source\POGraf\POGraf\bin\Release\Solver.pdb
+C:\Users\maxim\Desktop\Динамич моделирование\Match-calendar\source\POGraf\POGraf\obj\Release\POGraf.csprojAssemblyReference.cache
+C:\Users\maxim\Desktop\Динамич моделирование\Match-calendar\source\POGraf\POGraf\obj\Release\POGraf.csproj.CoreCompileInputs.cache
+C:\Users\maxim\Desktop\Динамич моделирование\Match-calendar\source\POGraf\POGraf\obj\Release\POGraf.csproj.CopyComplete
+C:\Users\maxim\Desktop\Динамич моделирование\Match-calendar\source\POGraf\POGraf\obj\Release\POGraf.exe
+C:\Users\maxim\Desktop\Динамич моделирование\Match-calendar\source\POGraf\POGraf\obj\Release\POGraf.pdb
+C:\Users\maxim\Desktop\DM\Match-calendar\source\POGraf\POGraf\bin\Release\POGraf.exe.config
+C:\Users\maxim\Desktop\DM\Match-calendar\source\POGraf\POGraf\bin\Release\POGraf.exe
+C:\Users\maxim\Desktop\DM\Match-calendar\source\POGraf\POGraf\bin\Release\POGraf.pdb
+C:\Users\maxim\Desktop\DM\Match-calendar\source\POGraf\POGraf\bin\Release\Core.dll
+C:\Users\maxim\Desktop\DM\Match-calendar\source\POGraf\POGraf\bin\Release\Loader.dll
+C:\Users\maxim\Desktop\DM\Match-calendar\source\POGraf\POGraf\bin\Release\Log.dll
+C:\Users\maxim\Desktop\DM\Match-calendar\source\POGraf\POGraf\bin\Release\Presenter.dll
+C:\Users\maxim\Desktop\DM\Match-calendar\source\POGraf\POGraf\bin\Release\Solver.dll
+C:\Users\maxim\Desktop\DM\Match-calendar\source\POGraf\POGraf\bin\Release\Core.pdb
+C:\Users\maxim\Desktop\DM\Match-calendar\source\POGraf\POGraf\bin\Release\Loader.pdb
+C:\Users\maxim\Desktop\DM\Match-calendar\source\POGraf\POGraf\bin\Release\Log.pdb
+C:\Users\maxim\Desktop\DM\Match-calendar\source\POGraf\POGraf\bin\Release\Presenter.pdb
+C:\Users\maxim\Desktop\DM\Match-calendar\source\POGraf\POGraf\bin\Release\Solver.pdb
+C:\Users\maxim\Desktop\DM\Match-calendar\source\POGraf\POGraf\obj\Release\POGraf.csprojAssemblyReference.cache
+C:\Users\maxim\Desktop\DM\Match-calendar\source\POGraf\POGraf\obj\Release\POGraf.csproj.CoreCompileInputs.cache
+C:\Users\maxim\Desktop\DM\Match-calendar\source\POGraf\POGraf\obj\Release\POGraf.csproj.CopyComplete
+C:\Users\maxim\Desktop\DM\Match-calendar\source\POGraf\POGraf\obj\Release\POGraf.exe
+C:\Users\maxim\Desktop\DM\Match-calendar\source\POGraf\POGraf\obj\Release\POGraf.pdb

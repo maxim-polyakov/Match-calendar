@@ -5,11 +5,14 @@ using System.IO;
 using System.Text;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
+using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
+
 
 using Core;
 using Loader;
 using Log;
+using System.Drawing;
 
 namespace Presenter
 {
@@ -108,71 +111,134 @@ namespace Presenter
             this.SetModel(mod);
 
             var dataTable = new DataTable();
-
+            Core.Schedule Model = new Core.Schedule(ans.schedule);
             int columnsNum = ans.schedule.tours; // Число туров
             // Столбцы по числу туров            
             for (int i = 0; i < columnsNum; i++)
             {
                 dataTable.Columns.Add(i.ToString());
             }
-
+            DataGridView grid = new DataGridView();
             int rowsNum = ans.schedule.games; // Число матчей в туре
             // Строки по числу матчей            
             for (int j = 0; j < rowsNum; j++)
             {
+                int k = 0;
                 var row = dataTable.NewRow();
 
                 //Соперник 1
                 for (int i = 0; i < columnsNum; i += 4)
                 {
-                    if (ans[i / 4, j].teams != null)
-                        row[i.ToString()] = ans[i / 4, j].teams[0];
-                    else
-                        row[i.ToString()] = "";
-                }
 
+                    if (mod.wishes[k].IsSuitable((int)ans.schedule.y[i, j], (int)ans.schedule.z[i, j], (int)ans.schedule.x[i, j, k], Model.games, Model, mod) && (k < mod.wishes.Count))
+                    {
+                        if (ans[i / 4, j].teams != null)
+                            row[i.ToString()] = ans[i / 4, j].teams[0];
+                        else
+                            row[i.ToString()] = "";
+
+                        k++;
+
+                        grid.Rows[i].DefaultCellStyle.BackColor = Color.Green;
+                    }
+                    else
+                    {
+
+                        if (ans[i / 4, j].teams != null)
+                            row[i.ToString()] = ans[i / 4, j].teams[0];
+                        else
+                            row[i.ToString()] = "";
+
+
+                        k++;
+                    }
+                }
                 //Соперник 2
                 for (int i = 1; i < columnsNum; i += 4)
                 {
-                    if (ans[i / 4, j].teams != null)
-                        row[i.ToString()] = ans[i / 4, j].teams[1];
+
+                    if (mod.wishes[k].IsSuitable((int)ans.schedule.y[i, j], (int)ans.schedule.z[i, j], (int)ans.schedule.x[i, j, k], Model.games, Model, mod) && (k < mod.wishes.Count))
+                    {
+                        if (ans[i / 4, j].teams != null)
+                            row[i.ToString()] = ans[i / 4, j].teams[1];
+                        else
+                            row[i.ToString()] = "";
+                        grid.Rows[i].DefaultCellStyle.BackColor = Color.Green;
+                        k++;
+                    }
                     else
-                        row[i.ToString()] = "";
+                    {
+                        if (ans[i / 4, j].teams != null)
+                            row[i.ToString()] = ans[i / 4, j].teams[1];
+                        else
+                            row[i.ToString()] = "";
+                        k++;
+                    }
                 }
+
 
                 //Дата матча
                 for (int i = 2; i < columnsNum; i += 4)
                 {
-                    if (ans[(i - 2) / 4, j].DateTime.HasValue)
-                        row[i.ToString()] = ((DateTime)ans[(i - 2) / 4, j].DateTime).ToShortDateString().ToString();
+                    if (mod.wishes[k].IsSuitable((int)ans.schedule.y[i, j], (int)ans.schedule.z[i, j], (int)ans.schedule.x[i, j, k], Model.games, Model, mod) && (k < mod.wishes.Count))
+                    {
+                        if (ans[(i - 2) / 4, j].DateTime.HasValue)
+                            row[i.ToString()] = ((DateTime)ans[(i - 2) / 4, j].DateTime).ToShortDateString().ToString();
+                        else
+                            row[i.ToString()] = "";
+
+                        grid.Rows[i].DefaultCellStyle.BackColor = Color.Green;
+                        k++;
+                    }
                     else
-                        row[i.ToString()] = "";
+                    {
+                        if (ans[(i - 2) / 4, j].DateTime.HasValue)
+                            row[i.ToString()] = ((DateTime)ans[(i - 2) / 4, j].DateTime).ToShortDateString().ToString();
+                        else
+                            row[i.ToString()] = "";
+                        k++;
+                    }
+                    dataTable.Rows.Add(row);
                 }
 
                 //Время матча
                 for (int i = 3; i < columnsNum; i += 4)
                 {
-                    if (ans[(i - 3) / 4, j].DateTime.HasValue)
-                        row[i.ToString()] = model.stadium.time[(int)ans.schedule.z[(i - 3) / 4, j]];
+                    
+
+                    if (mod.wishes[k].IsSuitable((int)ans.schedule.y[i, j], (int)ans.schedule.z[i, j], (int)ans.schedule.x[i, j, k], Model.games, Model, mod) && (k < mod.wishes.Count))
+                    {
+                        if (ans[(i - 3) / 4, j].DateTime.HasValue)
+                            row[i.ToString()] = model.stadium.time[(int)ans.schedule.z[(i - 3) / 4, j]];
+                        else
+                            row[i.ToString()] = "";
+                        grid.Rows[i].DefaultCellStyle.BackColor = Color.Green;
+                        k++;
+                    }
                     else
-                        row[i.ToString()] = "";
+                    {
+                        if (ans[(i - 3) / 4, j].DateTime.HasValue)
+                            row[i.ToString()] = model.stadium.time[(int)ans.schedule.z[(i - 3) / 4, j]];
+                        else
+                            row[i.ToString()] = "";
+                        k++;
+                    }
+
+
                 }
-
-                dataTable.Rows.Add(row);
+                dataTable.AcceptChanges();
             }
+                var html = this.GetHtml(dataTable);
 
-            dataTable.AcceptChanges();
-            var html = this.GetHtml(dataTable);
+                using (FileStream fstream = new FileStream(Directory.GetCurrentDirectory() + "\\answer.html", FileMode.OpenOrCreate))
+                {
+                    byte[] input = Encoding.Default.GetBytes(html);
 
-            using (FileStream fstream = new FileStream(Directory.GetCurrentDirectory() + "\\answer.html", FileMode.OpenOrCreate))
-            {
-                byte[] input = Encoding.Default.GetBytes(html);
-
-                fstream.Write(input, 0, input.Length);
-                LogGlobal.msg(0, DateTime.Now.TimeOfDay + " Presenter finished");
-            }
+                    fstream.Write(input, 0, input.Length);
+                    LogGlobal.msg(0, DateTime.Now.TimeOfDay + " Presenter finished");
+                }
+            
         }
-
         public void ShowCrit(List<int[]> l)
         {
             var dataTable = new DataTable();
@@ -218,9 +284,9 @@ namespace Presenter
 
             this.SetAnswer(ans);
             this.SetModel(mod);
-            Core.Schedule Model = new Core.Schedule(ans.schedule);
+           
             var dataTable = new DataTable();
-
+            Core.Schedule Model = new Core.Schedule(ans.schedule);
             int columnsNum = ans.schedule.tours; // Число туров
 
             int rowsNum = ans.schedule.games; // Число матчей в туре

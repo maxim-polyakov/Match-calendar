@@ -1,0 +1,6 @@
+C:\Users\maxim\Desktop\Динамич моделирование\Match-calendar\source\POGraf\Log\bin\Release\Log.dll
+C:\Users\maxim\Desktop\Динамич моделирование\Match-calendar\source\POGraf\Log\bin\Release\Log.pdb
+C:\Users\maxim\Desktop\Динамич моделирование\Match-calendar\source\POGraf\Log\obj\Release\Log.csprojAssemblyReference.cache
+C:\Users\maxim\Desktop\Динамич моделирование\Match-calendar\source\POGraf\Log\obj\Release\Log.csproj.CoreCompileInputs.cache
+C:\Users\maxim\Desktop\Динамич моделирование\Match-calendar\source\POGraf\Log\obj\Release\Log.dll
+C:\Users\maxim\Desktop\Динамич моделирование\Match-calendar\source\POGraf\Log\obj\Release\Log.pdb
