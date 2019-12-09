@@ -45,12 +45,13 @@ namespace Core
 
             int firstFreeTour = t;
             List<int[]> currGames = new List<int[]>(); // рассматриваемые неразмещенные матчи (тур, матч)
+            int minGames = minGamesСonsid;
             for (int i = 0; i < t; i++)
             {
                 if (sch.x[i, 0, 0] == null)
                 {
-                    firstFreeTour = i;
-                    break;
+                    if (firstFreeTour == t)
+                        firstFreeTour = i;
                 }
                 else
                     for (int j = 0; j < g; j++)
@@ -60,12 +61,14 @@ namespace Core
 
             do
             {
-                while ((currGames.Count < minGamesСonsid) && (firstFreeTour < t))
+                while ((currGames.Count < minGames) && (firstFreeTour < t))
                 {
                     SetNextTourRivals(sch, firstFreeTour);
                     for (int j = 0; j < g; j++)
                         currGames.Add(new int[2] { firstFreeTour, j });
-                    firstFreeTour++;
+                    for (firstFreeTour++; firstFreeTour < t; firstFreeTour++)
+                        if (sch.x[firstFreeTour, 0, 0] == null)
+                            break;
                 }
 
                 bool[,,] demSuit = new bool[currGames.Count, d, s];
@@ -148,7 +151,7 @@ namespace Core
 
                 }
                 else if (firstFreeTour < t)
-                    minGamesСonsid++;
+                    minGames++;
                 else
                     break;
             }
